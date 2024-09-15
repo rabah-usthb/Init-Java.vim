@@ -22,7 +22,7 @@ function  M.setWindow(x,y,winWidth,winHeight,title)
     assert(winHeight, "winHeight cannot be nil")  -- Check that winHeight is not nil
     assert(winWidth, "winWidth cannot be nil")    -- Similarly for winWidth
 
-    local win = guihua.window.new({
+    local win = guihua.listview.new({
     title = title,
     rect = {
       height = winHeight,
@@ -76,7 +76,6 @@ end
 
 --create the floating window GUI
 function M.createFloatingWindow ()
-print(vim.inspect(guihua))
 --get the neovim width
 local vimWidth = vim.o.columns
 --get the neovim height
