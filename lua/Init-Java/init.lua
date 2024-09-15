@@ -17,11 +17,9 @@ end
 
 
 function M.setTitle(title)
-
- -- Set the terminal window title on Neovim start
- vim.cmd('set title')
- vim.cmd('let &titlestring ='"..title..'"')
-
+    -- Set the terminal window title on Neovim start
+    vim.cmd('set title')
+    vim.cmd('let &titlestring = "' .. title .. '"')
 end
 
 function M.setWindow(buf,height,width,x,y)
