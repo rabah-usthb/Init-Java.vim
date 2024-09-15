@@ -22,7 +22,7 @@ function  M.setWindow(x,y,winWidth,winHeight,title)
     assert(winHeight, "winHeight cannot be nil")  -- Check that winHeight is not nil
     assert(winWidth, "winWidth cannot be nil")    -- Similarly for winWidth
 
-    local win =  guihua.Window({
+    local win = guihua.new_floating_window({
     title = title,
     rect = {
       height = winHeight,
