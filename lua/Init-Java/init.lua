@@ -1,7 +1,5 @@
 local M = {}
 
-local guihua = require('guihua')
-local input = require('guihua.input')
 
 --create the java project 
 function M.createJavaProject(ProjectPath,ProjectName)
@@ -15,59 +13,6 @@ function M.createJavaProject(ProjectPath,ProjectName)
     os.execute(commandBinSrc)
     --execute the commandMainFile
     os.execute(commandMainFile)
-end
-
---set the floating wibdow
-function  M.setWindow(x,y,winWidth,winHeight,title)
-    assert(winHeight, "winHeight cannot be nil")  -- Check that winHeight is not nil
-    assert(winWidth, "winWidth cannot be nil")    -- Similarly for winWidth
-
-    local win = guihua.listview.new({
-      title = title,
-      width = winWidth,
-      height = winHeight,
-      x = x,
-      y = y
-
-  })
-  return win
-end
-
---create the textfields table from the labels table 
-function M.setTextFields(labels)
- local textFields={}
-    for index, label in ipairs(labels) do
-          textFields[index] = input.input({
-            prompt = label,
-            default = ""
-        })
-    end
-return textFields
-end
-
-
---Add the labels and textFields to the floating window
-function M.setTextField_Labels(win,labels)
-local textFields = M.setTextFields(labels)
---XCoordinate for the label
-local X = 2
---YCoordinate for both the label and textfield
-local Y = 2
---Gap between label and textfield
-local XGap = 18
---Gap between each line of lable textfield
-local YGap = 2
-
---foreach loop to add the labels and textFields to the floating window
-  for _, textfield in ipairs(textFields) do
-     guihua.add(win, {
-        {type = 'label', text = textfield.prompt, x = X, y = Y},
-        {type = 'text', input = textfield, x = X+XGap, y = Y},
-      })
-      --updating the YCoordinate
-      Y = Y+YGap
- end
-
 end
 
 
@@ -90,18 +35,12 @@ local x = math.floor((vimWidth-winWidth)/2)
 local y = math.floor((vimHeight-winHeight)/2)
 --set title of the floating window
 local title = "Init Java Project"
-local win = M.setWindow(x,y,winWidth,winHeight,title)
-
 --set string table of labels
 local labels = {
   "ProjectPath",
   "ProjectName"
 }
---call to the setTextField_Labels to automatically add the labels and textFields
-M.setTextField_Labels(win,labels)
 
---shows the GUI
-win:show()
 end
 
 return M
