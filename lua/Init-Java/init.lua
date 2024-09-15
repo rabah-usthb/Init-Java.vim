@@ -26,8 +26,8 @@ function  M.setWindow(x,y,winWidth,winHeight,title)
     local win = floating.floating_buf({
     title = title,
     rect = {
-      height = winHeight,
-      width = winWidth,
+      height = 20,
+      width = 40,
       row = y,
       col = x
     },
