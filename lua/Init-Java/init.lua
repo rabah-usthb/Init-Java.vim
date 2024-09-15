@@ -23,15 +23,12 @@ function  M.setWindow(x,y,winWidth,winHeight,title)
     assert(winWidth, "winWidth cannot be nil")    -- Similarly for winWidth
 
     local win = guihua.listview.new({
-    title = title,
-    rect = {
-      height = winHeight,
+      title = title,
       width = winWidth,
-      row = y,
-      col = x
-    },
-    enter = true,
-    border = true
+      height = winHeight,
+      x = x,
+      y = y
+
   })
   return win
 end
