@@ -20,6 +20,9 @@ end
 
 --set the floating wibdow
 function  M.setWindow(x,y,winWidth,winHeight,title)
+    assert(winHeight, "winHeight cannot be nil")  -- Check that winHeight is not nil
+    assert(winWidth, "winWidth cannot be nil")    -- Similarly for winWidth
+
     local win = floating.floating_buf({
     title = title,
     rect = {
@@ -82,6 +85,10 @@ local vimHeight = vim.o.lines
 local winWidth = 40
 --set the height of the floating window
 local winHeight = 20
+
+print("height ",vimHeight)
+print("width ",vimWidth)
+
 --calculate the coordinate x , y of the floating window to be in center of the neovim window
 local x = math.floor((vimWidth-winWidth)/2)
 local y = math.floor((vimHeight-winHeight)/2)
