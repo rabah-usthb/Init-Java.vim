@@ -19,17 +19,12 @@ function M.createJavaProject(ProjectPath,ProjectName)
 end
 
 --set the floating wibdow
-function  M.setWindow(x,y,width,height,title)
-    print("x: ", x)
-    print("y: ", y)
-    print("width: ", width)
-    print("height: ", height)
-
+function  M.setWindow(x,y,winWidth,winHeight,title)
     local win = floating.floating_buf({
     title = title,
     rect = {
-      height = height,
-      width = width,
+      height = winHeight,
+      width = winWidth,
       row = y,
       col = x
     },
