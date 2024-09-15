@@ -16,8 +16,37 @@ function M.createJavaProject(ProjectPath,ProjectName)
 end
 
 
+function M.setTitle(title)
+
+ -- Set the terminal window title on Neovim start
+ vim.cmd('set title')
+ vim.cmd('let &titlestring ='"..title..'"')
+
+end
+
+function M.setWindow(buf,height,width,x,y)
+  local win = vim.api.nvim_open_win(buf, true, {
+        relative = 'editor',
+        width = width,  -- Width of the window
+        height = height,  -- Height of the window (single line + border)
+        col = y,
+        row = x,
+        border = 'single',
+    })
+ return win
+
+end
+
+function M.initBuf()
+ local buf = vim.api.nvim_create_buf(false, true)
+ return buf
+end
+
+
 --create the floating window GUI
 function M.createFloatingWindow ()
+--create new buffer
+local buf = M.initBuf()
 --get the neovim width
 local vimWidth = vim.o.columns
 --get the neovim height
@@ -26,9 +55,6 @@ local vimHeight = vim.o.lines
 local winWidth = 40
 --set the height of the floating window
 local winHeight = 20
-
-print("height ",vimHeight)
-print("width ",vimWidth)
 
 --calculate the coordinate x , y of the floating window to be in center of the neovim window
 local x = math.floor((vimWidth-winWidth)/2)
@@ -40,7 +66,8 @@ local labels = {
   "ProjectPath",
   "ProjectName"
 }
-
+M.setWindow(buf,winHeight,winWidth,x,y)
+M.setTitle(title)
 end
 
 return M
