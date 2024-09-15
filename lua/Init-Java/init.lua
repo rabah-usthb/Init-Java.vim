@@ -73,7 +73,7 @@ end
 
 
 --create the floating window GUI
-function M.createFloatingWidow ()
+function M.createFloatingWindow ()
 --get the neovim width
 local vimWidth = vim.o.columns
 --get the neovim height
