@@ -1,7 +1,6 @@
 local M = {}
 
 local guihua = require('guihua')
-local floating = require('guihua.floating')
 local input = require('guihua.input')
 
 --create the java project 
@@ -23,11 +22,11 @@ function  M.setWindow(x,y,winWidth,winHeight,title)
     assert(winHeight, "winHeight cannot be nil")  -- Check that winHeight is not nil
     assert(winWidth, "winWidth cannot be nil")    -- Similarly for winWidth
 
-    local win = floating.floating_buf({
+    local win =  guihua.Window({
     title = title,
     rect = {
-      height = 20,
-      width = 40,
+      height = winHeight,
+      width = winWidth,
       row = y,
       col = x
     },
