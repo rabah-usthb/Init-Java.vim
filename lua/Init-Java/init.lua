@@ -76,6 +76,7 @@ end
 
 --create the floating window GUI
 function M.createFloatingWindow ()
+print(vim.inspect(guihua))
 --get the neovim width
 local vimWidth = vim.o.columns
 --get the neovim height
