@@ -27,8 +27,8 @@ function M.setWindow(buf,height,width,x,y)
         relative = 'editor',
         width = width,  -- Width of the window
         height = height,  -- Height of the window (single line + border)
-        col = y,
-        row = x,
+        col = x,
+        row = y,
         border = 'single',
     })
  return win
@@ -37,6 +37,9 @@ end
 
 function M.initBuf()
  local buf = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')  -- Set buffer type to nofile
+  vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')   -- Buffer is wiped when no longer visible
+  vim.api.nvim_buf_set_option(buf, 'swapfile', false)     -- Disable swap file for this buffer
  return buf
 end
 
