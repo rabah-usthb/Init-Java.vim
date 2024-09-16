@@ -49,7 +49,7 @@ function M.updateIndexLine(indexLine)
     vim.api.nvim_buf_set_extmark(buf, ns_id, indexLine[1], 0, {
         end_line = indexLine[1],
         end_col = lineSize,
-        right_gravity = false, -- Lock the line (do not shift)
+        right_gravity = true, -- Lock the line (do not shift)
     })
 end
 
