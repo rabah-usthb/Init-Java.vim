@@ -261,7 +261,7 @@ M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYF
 --call the method to set the title
 M.setTitle(title)
 local startCol = offsetXField+3
-local endCol = offsetXField+fieldWidth+1
+local endCol = offsetXField+fieldWidth+2
 
 print("startCol ",startCol)
 print("endCol ",endCol)
