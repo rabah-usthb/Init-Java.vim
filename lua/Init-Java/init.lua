@@ -12,9 +12,8 @@ local bottom_left_corner =  '└'
 --bottom left corner character of the textfield
 local bottom_right_corner = '┘'
 
+local indexLineInputable = {}
 
--- Create a namespace for extmarks
-local ns_id = vim.api.nvim_create_namespace('my_namespace')
 
 --create the java project 
 function M.createJavaProject(ProjectPath,ProjectName)
@@ -29,6 +28,57 @@ function M.createJavaProject(ProjectPath,ProjectName)
     --execute the commandMainFile
     os.execute(commandMainFile)
 end
+
+
+function M.getClosestInputableLine(currentLine)
+   local min = math.floor(currentLine-indexLineInputable[1])
+   local currentValue = 0
+   for i = 2, #indexLineInputable, 1 do
+       currentValue =  math.abs(currentLine-indexLineInputable[i])
+       if(min>currentValue) then
+           min = currentValue
+        end
+   end
+   return min
+end
+
+
+function M.restrictCursor(startCol,endCol)
+    local buf = vim.api.nvim_get_current_buf()
+    local win_id = vim.api.nvim_get_current_win()
+    local cursor_pos = vim.api.nvim_win_get_cursor(win_id)
+    local currentLine, currentColumn = cursor_pos[1], cursor_pos[2]
+    local rightLine = false
+         for _, line in ipairs(indexLineInputable) do
+            if line == currentLine and (currentColumn > endCol and currentColumn < startCol) then    
+             vim.api.nvim_win_set_cursor(win_id, {currentLine, startCol})
+             rightLine = true
+            end
+         end
+         if rightLine == false then    
+           local minLine = M.getClosestInputableLine(currentLine)
+           vim.api.nvim_win_set_cursor(win_id, {minLine, startCol})
+         end
+    end
+
+
+
+   -- Define the setupCursorListener function
+function M.setupCursorListener(startCol, endCol)
+    -- Create an autocommand group for easy management
+    local augroup = vim.api.nvim_create_augroup("CursorListenerGroup", { clear = true })
+
+    -- Set up the autocommand and capture startCol and endCol in the callback
+    vim.api.nvim_create_autocmd("CursorMoved", {
+        group = augroup,
+        callback = function()
+            -- Call restrictCursor with the captured startCol and endCol
+            M.restrictCursor(startCol, endCol)
+        end,
+        buffer = vim.api.nvim_get_current_buf(),  -- Apply to current buffer
+    })
+end
+
 
 --write the empty line to create gap between each text field
 function M.writeGapLine(buf,indexLine,GapYField)
@@ -54,11 +104,11 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabe
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { topFieldPart })
     M.updateIndexLine(indexLine)
     for i = 1,fieldHeight, 1 do
-        if(i==math.floor(fieldHeight / 2) or i == fieldHeight) then
-
-    vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label) })
+        if(i==math.floor(fieldHeight / 2) or i == fieldHeight) then  
+          indexLineInputable[#indexLineInputable+1] =indexLine[1]
+         vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label) })
         else
-    vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { middleFieldPart })
+           vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { middleFieldPart })
         end 
         M.updateIndexLine(indexLine)
     end
@@ -80,7 +130,7 @@ function M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label)
      local sizeLabel = #label
      local offsetX = offsetXField - (offsetXLabel+sizeLabel)
      middlefield = string.rep(" ",offsetXLabel)..label..string.rep(" ",offsetX)..straight_vertical_line..string.rep(" ",fieldWidth)..straight_vertical_line 
-    end
+  end
  end
     return middlefield
 end
@@ -189,6 +239,11 @@ M.setWindow(buf,winHeight,winWidth,x,y)
 M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
 --call the method to set the title
 M.setTitle(title)
+local startCol = offsetXField
+local endCol = offsetXField+fieldWidth
+M.setupCursorListener(startCol,endCol)
+
 end
+
 
 return M
