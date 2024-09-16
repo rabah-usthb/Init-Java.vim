@@ -21,12 +21,17 @@ function M.createJavaProject(ProjectPath,ProjectName)
     os.execute(commandMainFile)
 end
 
-
-function M.updateIndexLine(indexLine,GapYField)
-    GapYField = GapYField or 1
-    indexLine[1] = indexLine[1]+GapYField
-    indexLine[2] = indexLine[2]+GapYField 
+function M.writeGapLine(buf,indexLine,GapYField)
+   for i = 1,GapYField, 1 do
+    vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, {""})
+    M.updateIndexLine(indexLine)
+   end
 end
+
+function M.updateIndexLine(indexLine)
+    indexLine[1] = indexLine[1]+1
+    indexLine[2] = indexLine[2]+1
+   end
 
 function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabel,offsetXField,GapYField)
      local topFieldPart = M.getTopField(fieldWidth,offsetXField)
@@ -47,7 +52,8 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabe
     end
 
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { bottomFieldPart })
-    M.updateIndexLine(indexLine,GapYField)
+    M.updateIndexLine(indexLine)
+    M.writeGapLine(buf,indexLine,GapYField)
 
 
 end
