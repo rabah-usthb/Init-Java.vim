@@ -35,7 +35,7 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabe
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { topFieldPart })
     M.updateIndexLine(indexLine)
     for i = 1,fieldHeight, 1 do
-        if(i==fieldHeight//2) then
+        if(i==math.floor(fieldHeight / 2)) then 
  
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label) })
         else
