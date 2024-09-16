@@ -123,6 +123,7 @@ function M.setWindow(buf,height,width,x,y)
         col = x,
         row = y,
         border = 'single',
+        style =  'minimal',
     })
  return win
 
@@ -131,10 +132,12 @@ end
 --initailize the buffer of the window
 function M.initBuf()
  local buf = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')  -- Set buffer type to nofile
-  vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')   -- Buffer is wiped when no longer visible
-  vim.api.nvim_buf_set_option(buf, 'swapfile', false)     -- Disable swap file for this buffer
- return buf
+    vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')   -- Set buffer type to nofile
+    vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')   -- Buffer is wiped when no longer visible
+    vim.api.nvim_buf_set_option(buf, 'swapfile', false)     -- Disable swap file for this buffer
+    vim.api.nvim_buf_set_option(buf, 'buflisted', false)    -- Do not list buffer in buffer list
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, {})       -- Clear any existing content
+   return buf
 end
 
 
