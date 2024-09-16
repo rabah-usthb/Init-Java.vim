@@ -79,13 +79,7 @@ function M.setupCursorListener(buf, win_id, startCol, endCol)
     })
 
     -- Handle mode changes
-    vim.api.nvim_create_autocmd("ModeChanged", {
-        group = augroup,
-        callback = function()
-            M.restrictCursor(win_id, startCol, endCol)
-        end,
-    })
-
+  
     -- Handle InsertEnter and InsertLeave
     vim.api.nvim_create_autocmd({"InsertEnter", "InsertLeave"}, {
         group = augroup,
