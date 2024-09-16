@@ -12,6 +12,10 @@ local bottom_left_corner =  '└'
 --bottom left corner character of the textfield
 local bottom_right_corner = '┘'
 
+
+-- Create a namespace for extmarks
+local ns_id = vim.api.nvim_create_namespace('my_namespace')
+
 --create the java project 
 function M.createJavaProject(ProjectPath,ProjectName)
     --concat ProjectPath with project name to get full path that is needed in the commands
@@ -43,7 +47,7 @@ function M.updateIndexLine(indexLine)
 
  function M.lock_line(buf, indexLine)
     local line_length = vim.api.nvim_buf_get_lines(buf, indexLine[1],indexLine[2], false)[1]:len()
-    vim.api.nvim_buf_set_extmark(buf, 0, indexLine[1], 0, {
+    vim.api.nvim_buf_set_extmark(buf, ns_id, indexLine[1], 0, {
         end_line = indexLine[1],
         end_col = line_length,
         right_gravity = false, -- Lock the line (do not shift)
