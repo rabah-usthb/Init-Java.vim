@@ -52,7 +52,7 @@ function M.restrictCursor(win_id,startCol,endCol)
     print("fetched currentColumn ",currentColumn)
    -- local rightLine = false
          for _, line in ipairs(indexLineInputable) do
-            if line == currentLine and (currentColumn > endCol and currentColumn < startCol) then    
+            if line == currentLine and (currentColumn > endCol or currentColumn < startCol) then    
              print("out of bounds currentColumn ",currentColumn) 
              vim.api.nvim_win_set_cursor(win_id, {currentLine, startCol})
        --      rightLine = true
