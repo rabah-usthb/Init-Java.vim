@@ -239,7 +239,10 @@ M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYF
 M.setTitle(title)
 local startCol = offsetXField
 local endCol = offsetXField+fieldWidth
-print(indexLineInputable)
+for i = 1, #indexLineInputable, 1 do
+    
+print(indexLineInputable[i])
+end
 M.setupCursorListener(buf,win,startCol,endCol)
 
 end
