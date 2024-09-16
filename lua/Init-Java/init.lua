@@ -138,7 +138,7 @@ local labels = {
   "ProjectPath",
   "ProjectName"
 }
-local fieldWidth = 20
+local fieldWidth = 30
 local fieldHeight = 1
 local offsetXLabel = 6
 local offsetXField = 24
