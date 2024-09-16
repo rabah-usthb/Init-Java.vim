@@ -50,20 +50,15 @@ function M.restrictCursor(win_id,startCol,endCol)
     local currentLine, currentColumn = cursor_pos[1], cursor_pos[2]
     print("fetched currentLine ",currentLine)
     print("fetched currentColumn ",currentColumn)
-    local rightLine = false
+   -- local rightLine = false
          for _, line in ipairs(indexLineInputable) do
             if line == currentLine and (currentColumn > endCol and currentColumn < startCol) then    
              print("out of bounds currentColumn ",currentColumn) 
              vim.api.nvim_win_set_cursor(win_id, {currentLine, startCol})
-             rightLine = true
+       --      rightLine = true
             end
          end
-         if rightLine == false then    
-           local minLine = M.getClosestInputableLine(currentLine)
-           print("min Line ",minLine)
-           vim.api.nvim_win_set_cursor(win_id, {minLine, startCol})
-         end
-    end
+           end
 
 
 function M.cleanupCursorListener()
