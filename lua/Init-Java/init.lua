@@ -52,25 +52,26 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabe
 end
 
 function M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label)
-    if label == nil and offsetXLabel == nil then    
-      local middlefield = string.rep(" ",offsetXField)..straight_vertical_line..string.rep(" ",fieldWidth)..straight_vertical_line 
-    else if label~= nil and offsetXLabel~=nil then 
-        local offsetX = offsetXField - offsetXLabel
-      local middlefield = string.rep(" ",offsetXLabel)..label..string.rep(" ",offsetX)..straight_vertical_line..string.rep(" ",fieldWidth)..straight_vertical_line 
+    local middlefield = ""
+    if label == nil and offsetXLabel == nil then
+     middlefield = string.rep(" ",offsetXField)..straight_vertical_line..string.rep(" ",fieldWidth)..straight_vertical_line 
+    else if label~= nil and offsetXLabel~=nil then
+     local offsetX = offsetXField - offsetXLabel
+     middlefield = string.rep(" ",offsetXLabel)..label..string.rep(" ",offsetX)..straight_vertical_line..string.rep(" ",fieldWidth)..straight_vertical_line 
     end
  end
     return middlefield
 end
 
-function M.getTopField(fieldWidth)
-    local topFieldPart = top_left_corner..string.rep(straight_horizontal_line, fieldWidth)..top_right_corner
+function M.getTopField(fieldWidth,offsetXField)
+    local topFieldPart = string.rep(" ",offsetXField)..top_left_corner..string.rep(straight_horizontal_line, fieldWidth)..top_right_corner
     return topFieldPart
 
 end
 
 
-function M.getbottomField(fieldWidth)
-    local bottomFieldPart = bottom_left_corner..string.rep(straight_horizontal_line, fieldWidth)..bottom_right_corner
+function M.getbottomField(fieldWidth,offsetXField)
+    local bottomFieldPart = string.rep(" ",offsetXField)..bottom_left_corner..string.rep(straight_horizontal_line, fieldWidth)..bottom_right_corner
     return bottomFieldPart
 end
 
