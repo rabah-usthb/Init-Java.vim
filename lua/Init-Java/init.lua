@@ -66,6 +66,7 @@ function M.restrictCursor(win_id,startCol,endCol)
 
 
 function M.setupCursorListener(buf, win_id, startCol, endCol)
+    if win_id ~= nil then
     -- Create an autocommand group for easy management
     local augroup = vim.api.nvim_create_augroup("CursorListenerGroup", { clear = true })
 
@@ -87,6 +88,7 @@ function M.setupCursorListener(buf, win_id, startCol, endCol)
             M.restrictCursor(win_id, startCol, endCol)
         end,
     })
+     end
 end
 
 --write the empty line to create gap between each text field
