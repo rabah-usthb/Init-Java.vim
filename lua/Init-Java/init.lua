@@ -64,22 +64,36 @@ function M.restrictCursor(win_id,startCol,endCol)
 
 
 
-   -- Define the setupCursorListener function
-function M.setupCursorListener(buf,win_id,startCol, endCol)
+
+function M.setupCursorListener(buf, win_id, startCol, endCol)
     -- Create an autocommand group for easy management
     local augroup = vim.api.nvim_create_augroup("CursorListenerGroup", { clear = true })
 
-    -- Set up the autocommand and capture startCol and endCol in the callback
+    -- Set up the autocommand to handle CursorMoved event
     vim.api.nvim_create_autocmd("CursorMoved", {
         group = augroup,
         callback = function()
-            -- Call restrictCursor with the captured startCol and endCol
-            M.restrictCursor(win_id,startCol, endCol)
+            M.restrictCursor(win_id, startCol, endCol)
         end,
         buffer = buf,  -- Apply to current buffer
     })
-end
 
+    -- Handle mode changes
+    vim.api.nvim_create_autocmd("ModeChanged", {
+        group = augroup,
+        callback = function()
+            M.restrictCursor(win_id, startCol, endCol)
+        end,
+    })
+
+    -- Handle InsertEnter and InsertLeave
+    vim.api.nvim_create_autocmd({"InsertEnter", "InsertLeave"}, {
+        group = augroup,
+        callback = function()
+            M.restrictCursor(win_id, startCol, endCol)
+        end,
+    })
+end
 
 --write the empty line to create gap between each text field
 function M.writeGapLine(buf,indexLine,GapYField)
@@ -240,7 +254,7 @@ local win = M.setWindow(buf,winHeight,winWidth,x,y)
 M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
 --call the method to set the title
 M.setTitle(title)
-local startCol = offsetXField
+local startCol = offsetXField+1
 local endCol = offsetXField+fieldWidth
 
 print("startCol ",startCol)
