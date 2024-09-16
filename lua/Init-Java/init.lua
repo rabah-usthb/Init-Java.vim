@@ -43,7 +43,7 @@ function M.updateIndexLine(indexLine)
 
  function M.lock_line(buf, indexLine)
     local line_length = vim.api.nvim_buf_get_lines(buf, indexLine[1],indexLine[2], false)[1]:len()
-    vim.api.nvim_buf_set_extmark(buf, 0, line_index, 0, {
+    vim.api.nvim_buf_set_extmark(buf, 0, indexLine[1], 0, {
         end_line = indexLine[1],
         end_col = line_length,
         right_gravity = false, -- Lock the line (do not shift)
