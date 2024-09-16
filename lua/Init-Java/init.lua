@@ -54,7 +54,8 @@ function M.restrictCursor(win_id,startCol,endCol)
          for _, line in ipairs(indexLineInputable) do
             if line == currentLine and (currentColumn > endCol or currentColumn < startCol) then    
              print("out of bounds currentColumn ",currentColumn) 
-             vim.api.nvim_win_set_cursor(win_id, {currentLine, startCol})
+             local closetColumn = math.min(math.abs(currentColumn-startCol),math.abs(currentColumn-endCol))
+             vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})
        --      rightLine = true
             end
          end
@@ -252,7 +253,7 @@ local win = M.setWindow(buf,winHeight,winWidth,x,y)
 M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
 --call the method to set the title
 M.setTitle(title)
-local startCol = offsetXField+1
+local startCol = offsetXField+2
 local endCol = offsetXField+fieldWidth
 
 print("startCol ",startCol)
