@@ -43,9 +43,7 @@ function M.getClosestInputableLine(currentLine)
 end
 
 
-function M.restrictCursor(startCol,endCol)
-    local buf = vim.api.nvim_get_current_buf()
-    local win_id = vim.api.nvim_get_current_win()
+function M.restrictCursor(win_id,startCol,endCol)
     local cursor_pos = vim.api.nvim_win_get_cursor(win_id)
     local currentLine, currentColumn = cursor_pos[1], cursor_pos[2]
     local rightLine = false
@@ -64,7 +62,7 @@ function M.restrictCursor(startCol,endCol)
 
 
    -- Define the setupCursorListener function
-function M.setupCursorListener(startCol, endCol)
+function M.setupCursorListener(buf,win_id,startCol, endCol)
     -- Create an autocommand group for easy management
     local augroup = vim.api.nvim_create_augroup("CursorListenerGroup", { clear = true })
 
@@ -73,9 +71,9 @@ function M.setupCursorListener(startCol, endCol)
         group = augroup,
         callback = function()
             -- Call restrictCursor with the captured startCol and endCol
-            M.restrictCursor(startCol, endCol)
+            M.restrictCursor(win_id,startCol, endCol)
         end,
-        buffer = vim.api.nvim_get_current_buf(),  -- Apply to current buffer
+        buffer = buf,  -- Apply to current buffer
     })
 end
 
@@ -234,14 +232,14 @@ local offsetXField = 24
 --set the gap between each fields
 local GapYField = 2
 --call method to create the window
-M.setWindow(buf,winHeight,winWidth,x,y)
+local win = M.setWindow(buf,winHeight,winWidth,x,y)
 --call the method to set the labels and textfields
 M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
 --call the method to set the title
 M.setTitle(title)
 local startCol = offsetXField
 local endCol = offsetXField+fieldWidth
-M.setupCursorListener(startCol,endCol)
+M.setupCursorListener(buf,win,startCol,endCol)
 
 end
 
