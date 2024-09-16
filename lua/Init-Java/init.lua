@@ -116,14 +116,17 @@ end
 
 --create the floating window
 function M.setWindow(buf,height,width,x,y)
+ -- Define the highlight group for the border
+    vim.cmd('highlight MyWhiteBorder guifg=white')
   local win = vim.api.nvim_open_win(buf, true, {
         relative = 'editor',
         width = width,
         height = height,
         col = x,
         row = y,
-        border = 'single',
+        border = 'rounded',
         style =  'minimal',
+        winhl = 'Normal:Normal,FloatBorder:MyWhiteBorder',  -- Apply the white border highlight
     })
  return win
 
