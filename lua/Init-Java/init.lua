@@ -138,8 +138,8 @@ local labels = {
   "ProjectPath",
   "ProjectName"
 }
-local fieldWidth = 15
-local fieldHeight = 2
+local fieldWidth = 20
+local fieldHeight = 1
 local offsetXLabel = 6
 local offsetXField = 24
 M.setWindow(buf,winHeight,winWidth,x,y)
