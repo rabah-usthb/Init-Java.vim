@@ -66,7 +66,7 @@ function M.restrictCursor(win_id,startCol,endCol)
 
 
 function M.setupCursorListener(buf, win_id, startCol, endCol)
-    if win_id ~= nil then
+    if vim.api.nvim_win_is_valid(win_id) then
     -- Create an autocommand group for easy management
     local augroup = vim.api.nvim_create_augroup("CursorListenerGroup", { clear = true })
 
