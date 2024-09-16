@@ -31,7 +31,7 @@ end
 
 
 function M.getClosestInputableLine(currentLine)
-   local min = math.floor(currentLine-indexLineInputable[1])
+   local min = math.abs(currentLine-indexLineInputable[1])
    local currentValue = 0
    for i = 2, #indexLineInputable, 1 do
        currentValue =  math.abs(currentLine-indexLineInputable[i])
