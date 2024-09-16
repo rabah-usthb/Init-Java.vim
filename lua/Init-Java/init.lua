@@ -54,7 +54,14 @@ function M.restrictCursor(win_id,startCol,endCol)
          for _, line in ipairs(indexLineInputable) do
             if line == currentLine and (currentColumn > endCol or currentColumn < startCol) then    
              print("out of bounds currentColumn ",currentColumn) 
-             local closetColumn = math.min(math.abs(currentColumn-startCol),math.abs(currentColumn-endCol))
+             local closetColumn = 0
+             local gapStart = math.abs(currentColumn-startCol)
+             local gapEnd = math.abs(currentColumn-endCol)
+             if gapStart>=gapEnd then
+                closetColumn = endCol
+                  else
+                      closetColumn = startCol
+             end
              vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})
        --      rightLine = true
             end
