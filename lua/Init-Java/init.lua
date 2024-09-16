@@ -260,8 +260,8 @@ local win = M.setWindow(buf,winHeight,winWidth,x,y)
 M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
 --call the method to set the title
 M.setTitle(title)
-local startCol = offsetXField+2
-local endCol = offsetXField+fieldWidth
+local startCol = offsetXField+3
+local endCol = offsetXField+fieldWidth+1
 
 print("startCol ",startCol)
 print("endCol ",endCol)
