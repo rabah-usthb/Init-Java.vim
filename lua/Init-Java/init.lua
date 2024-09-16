@@ -55,6 +55,7 @@ function M.restrictCursor(win_id,startCol,endCol)
          end
          if rightLine == false then    
            local minLine = M.getClosestInputableLine(currentLine)
+           print("min Line ",minLine)
            vim.api.nvim_win_set_cursor(win_id, {minLine, startCol})
          end
     end
@@ -239,10 +240,9 @@ M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYF
 M.setTitle(title)
 local startCol = offsetXField
 local endCol = offsetXField+fieldWidth
-for i = 1, #indexLineInputable, 1 do
-    
-print(indexLineInputable[i])
-end
+
+print("startCol ",startCol)
+print("endCol ",endCol)
 M.setupCursorListener(buf,win,startCol,endCol)
 
 end
