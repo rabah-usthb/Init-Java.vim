@@ -104,7 +104,7 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabe
     M.updateIndexLine(indexLine)
     for i = 1,fieldHeight, 1 do
         if(i==math.floor(fieldHeight / 2) or i == fieldHeight) then  
-          indexLineInputable[#indexLineInputable+1] =indexLine[1]
+          indexLineInputable[#indexLineInputable+1] =indexLine[2]
          vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label) })
         else
            vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { middleFieldPart })
