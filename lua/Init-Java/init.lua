@@ -63,6 +63,10 @@ function M.restrictCursor(win_id,startCol,endCol)
     end
 
 
+function M.cleanupCursorListener()
+    -- Delete the autocommand group
+    vim.api.nvim_del_augroup_by_name("CursorListenerGroup")
+end
 
 
 function M.setupCursorListener(buf, win_id, startCol, endCol)
@@ -256,7 +260,10 @@ local endCol = offsetXField+fieldWidth
 print("startCol ",startCol)
 print("endCol ",endCol)
 M.setupCursorListener(buf,win,startCol,endCol)
-
+  vim.api.nvim_create_autocmd("BufWinLeave", {
+        buffer = buf,
+        callback = M.cleanupCursorListener,
+    })
 end
 
 
