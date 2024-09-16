@@ -40,6 +40,17 @@ function M.updateIndexLine(indexLine)
     indexLine[2] = indexLine[2]+1
    end
 
+
+ function M.lock_line(buf, indexLine)
+    local line_length = vim.api.nvim_buf_get_lines(buf, indexLine[1],indexLine[2], false)[1]:len()
+    vim.api.nvim_buf_set_extmark(buf, 0, line_index, 0, {
+        end_line = indexLine[1],
+        end_col = line_length,
+        right_gravity = false, -- Lock the line (do not shift)
+    })
+end
+
+
 --write one field and label while updating the index line
 function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabel,offsetXField,GapYField)
      local topFieldPart = M.getTopField(fieldWidth,offsetXField)
@@ -47,6 +58,7 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabe
      local bottomFieldPart = M.getbottomField(fieldWidth,offsetXField)
 
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { topFieldPart })
+    M.lock_line(buf,indexLine)
     M.updateIndexLine(indexLine)
     for i = 1,fieldHeight, 1 do
         if(i==math.floor(fieldHeight / 2) or i == fieldHeight) then
@@ -54,12 +66,13 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabe
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label) })
         else
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { middleFieldPart })
-        end
-
+        end   
+        M.lock_line(buf,indexLine)
         M.updateIndexLine(indexLine)
     end
 
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { bottomFieldPart })
+    M.lock_line(buf,indexLine)
     M.updateIndexLine(indexLine)
     M.writeGapLine(buf,indexLine,GapYField)
 
