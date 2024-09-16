@@ -126,9 +126,11 @@ function M.setWindow(buf,height,width,x,y)
         row = y,
         border = 'rounded',
         style =  'minimal',
-        winhl = 'Normal:Normal,FloatBorder:MyWhiteBorder',  -- Apply the white border highlight
     })
- return win
+    
+    vim.api.nvim_win_set_option(win, 'winhl', 'FloatBorder:MyWhiteBorder')
+
+    return win
 
 end
 
