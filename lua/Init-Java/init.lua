@@ -139,8 +139,8 @@ local labels = {
 }
 local fieldWidth = 15
 local fieldHeight = 2
-local offsetXLabel = 3
-local offsetXField = 6
+local offsetXLabel = 6
+local offsetXField = 24
 M.setWindow(buf,winHeight,winWidth,x,y)
 M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField)
 M.setTitle(title)
