@@ -110,9 +110,9 @@ local vimWidth = vim.o.columns
 --get the neovim height
 local vimHeight = vim.o.lines
 --set the width of the floating window
-local winWidth = 40
+local winWidth = 70
 --set the height of the floating window
-local winHeight = 20
+local winHeight = 10
 
 --calculate the coordinate x , y of the floating window to be in center of the neovim window
 local x = math.floor((vimWidth-winWidth)/2)
@@ -124,8 +124,8 @@ local labels = {
   "ProjectPath",
   "ProjectName"
 }
-local fieldWidth = 10
-local fieldHeight = 3
+local fieldWidth = 15
+local fieldHeight = 2
 M.setWindow(buf,winHeight,winWidth,x,y)
 M.setTextField(labels,fieldWidth,fieldHeight,buf)
 M.setTitle(title)
