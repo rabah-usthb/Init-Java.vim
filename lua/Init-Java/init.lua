@@ -23,8 +23,9 @@ end
 
 
 function M.updateIndexLine(indexLine,GapYField)
+    GapYField = GapYField or 1
     indexLine[1] = indexLine[1]+GapYField
-    indexLine[2] = indexLine[2]+GapYField
+    indexLine[2] = indexLine[2]+GapYField 
 end
 
 function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabel,offsetXField,GapYField)
@@ -42,11 +43,11 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabe
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { middleFieldPart })
         end
 
-        M.updateIndexLine(indexLine,GapYField)
+        M.updateIndexLine(indexLine)
     end
 
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { bottomFieldPart })
-    M.updateIndexLine(indexLine)
+    M.updateIndexLine(indexLine,GapYField)
 
 
 end
