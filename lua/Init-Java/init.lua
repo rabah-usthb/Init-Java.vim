@@ -1,10 +1,15 @@
 local M = {}
-
+--top left corner character of the textfield
 local top_left_corner = '┌'
+--straight horizontal line character of the textfield
 local straight_horizontal_line = '─'
+--top right corner character of the textfield
 local top_right_corner = '┐'
+--straight vertical line character of the textfield
 local straight_vertical_line = '│'
+--bottom left corner character of the textfield
 local bottom_left_corner =  '└'
+--bottom left corner character of the textfield
 local bottom_right_corner = '┘'
 
 --create the java project 
@@ -21,6 +26,7 @@ function M.createJavaProject(ProjectPath,ProjectName)
     os.execute(commandMainFile)
 end
 
+--write the empty line to create gap between each text field
 function M.writeGapLine(buf,indexLine,GapYField)
    for i = 1,GapYField, 1 do
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, {""})
@@ -28,11 +34,13 @@ function M.writeGapLine(buf,indexLine,GapYField)
    end
 end
 
+--update the index line 
 function M.updateIndexLine(indexLine)
     indexLine[1] = indexLine[1]+1
     indexLine[2] = indexLine[2]+1
    end
 
+--write one field and label while updating the index line
 function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabel,offsetXField,GapYField)
      local topFieldPart = M.getTopField(fieldWidth,offsetXField)
      local middleFieldPart = M.getMiddleField(fieldWidth,offsetXField)
@@ -58,6 +66,8 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabe
 
 end
 
+--create the middle part line with two vertical line character and fieldWidth time space character between them
+--and if label and its offset arent nil the line will have the label and the vertical line with its offset 
 function M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label)
     local middlefield = ""
     if label == nil and offsetXLabel == nil then
@@ -71,19 +81,23 @@ function M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label)
     return middlefield
 end
 
+--create the top part of the textfield made with the top corners character and fieldWidth time character
+--of horizontal line and offsetXField time space character to make space between beggining and the field
 function M.getTopField(fieldWidth,offsetXField)
     local topFieldPart = string.rep(" ",offsetXField)..top_left_corner..string.rep(straight_horizontal_line, fieldWidth)..top_right_corner
     return topFieldPart
 
 end
 
-
+--create the bottom part of the textfield made with the bottom corners character and fieldWidth time character
+--of horizontal line and offsetXField time space character to make space between beggining and the field
 function M.getbottomField(fieldWidth,offsetXField)
     local bottomFieldPart = string.rep(" ",offsetXField)..bottom_left_corner..string.rep(straight_horizontal_line, fieldWidth)..bottom_right_corner
     return bottomFieldPart
 end
 
 
+--write the labels and textfield nbfields time
 function M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
     local nbField = #labels
     local indexLine = {0,1}
@@ -93,13 +107,14 @@ function M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXFi
 
 end
 
-
+--set the title 
 function M.setTitle(title)
     -- Set the terminal window title on Neovim start
     vim.cmd('set title')
     vim.cmd('let &titlestring = "' .. title .. '"')
 end
 
+--create the floating window
 function M.setWindow(buf,height,width,x,y)
   local win = vim.api.nvim_open_win(buf, true, {
         relative = 'editor',
@@ -113,6 +128,7 @@ function M.setWindow(buf,height,width,x,y)
 
 end
 
+--initailize the buffer of the window
 function M.initBuf()
  local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')  -- Set buffer type to nofile
@@ -145,13 +161,21 @@ local labels = {
   "ProjectPath",
   "ProjectName"
 }
+--set field width
 local fieldWidth = 30
+--set field height
 local fieldHeight = 1
+--set offset of the labels
 local offsetXLabel = 6
+--set offset of the fields
 local offsetXField = 24
+--set the gap between each fields
 local GapYField = 2
+--call method to create the window
 M.setWindow(buf,winHeight,winWidth,x,y)
+--call the method to set the labels and textfields
 M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
+--call the method to set the title
 M.setTitle(title)
 end
 
