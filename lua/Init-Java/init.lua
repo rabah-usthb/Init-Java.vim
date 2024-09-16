@@ -56,7 +56,8 @@ function M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label)
     if label == nil and offsetXLabel == nil then
      middlefield = string.rep(" ",offsetXField)..straight_vertical_line..string.rep(" ",fieldWidth)..straight_vertical_line 
     else if label~= nil and offsetXLabel~=nil then
-     local offsetX = offsetXField - offsetXLabel
+     local sizeLabel = #label
+     local offsetX = offsetXField - (offsetXLabel+sizeLabel)
      middlefield = string.rep(" ",offsetXLabel)..label..string.rep(" ",offsetX)..straight_vertical_line..string.rep(" ",fieldWidth)..straight_vertical_line 
     end
  end
