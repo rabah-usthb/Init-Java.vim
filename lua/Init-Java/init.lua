@@ -27,16 +27,22 @@ function M.updateIndexLine(indexLine)
     indexLine[2] = indexLine[2]+1
 end
 
-function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf)
-     local topFieldPart = M.getTopField(fieldWidth)
-     local middleFieldPart = M.getMiddleField(fieldWidth)
-     local bottomFieldPart = M.getbottomField(fieldWidth)
+function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabel,offsetXField)
+     local topFieldPart = M.getTopField(fieldWidth,offsetXField)
+     local middleFieldPart = M.getMiddleField(fieldWidth,offsetXField)
+     local bottomFieldPart = M.getbottomField(fieldWidth,offsetXField)
 
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { topFieldPart })
     M.updateIndexLine(indexLine)
     for i = 1,fieldHeight, 1 do
+        if(i==fieldHeight//2) then
+ 
+    vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label) })
+        else
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { middleFieldPart })
-    M.updateIndexLine(indexLine)
+        end
+
+        M.updateIndexLine(indexLine)
     end
 
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { bottomFieldPart })
@@ -45,8 +51,14 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf)
 
 end
 
-function M.getMiddleField(fieldWidth)
-    local middlefield = straight_vertical_line..string.rep(" ",fieldWidth)..straight_vertical_line 
+function M.getMiddleField(fieldWidth,offsetXField,offsetXLabel,label)
+    if label == nil and offsetXLabel == nil then    
+      local middlefield = string.rep(" ",offsetXField)..straight_vertical_line..string.rep(" ",fieldWidth)..straight_vertical_line 
+    else if label~= nil and offsetXLabel~=nil then 
+        local offsetX = offsetXField - offsetXLabel
+      local middlefield = string.rep(" ",offsetXLabel)..label..string.rep(" ",offsetX)..straight_vertical_line..string.rep(" ",fieldWidth)..straight_vertical_line 
+    end
+ end
     return middlefield
 end
 
@@ -63,11 +75,11 @@ function M.getbottomField(fieldWidth)
 end
 
 
-function M.setTextField(label,fieldWidth,fieldHeight,buf)
-    local nbField = #label
+function M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField)
+    local nbField = #labels
     local indexLine = {0,1}
     for i = 1, nbField, 1 do
-        M.writeTextField(fieldWidth,fieldHeight,indexLine,buf)
+        M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,labels[i],offsetXLabel,offsetXField)
     end
 
 end
@@ -126,8 +138,10 @@ local labels = {
 }
 local fieldWidth = 15
 local fieldHeight = 2
+local offsetXLabel = 3
+local offsetXField = 6
 M.setWindow(buf,winHeight,winWidth,x,y)
-M.setTextField(labels,fieldWidth,fieldHeight,buf)
+M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField)
 M.setTitle(title)
 end
 
