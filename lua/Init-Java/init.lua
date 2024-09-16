@@ -22,12 +22,12 @@ function M.createJavaProject(ProjectPath,ProjectName)
 end
 
 
-function M.updateIndexLine(indexLine)
-    indexLine[1] = indexLine[1]+1
-    indexLine[2] = indexLine[2]+1
+function M.updateIndexLine(indexLine,GapYField)
+    indexLine[1] = indexLine[1]+GapYField
+    indexLine[2] = indexLine[2]+GapYField
 end
 
-function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabel,offsetXField)
+function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabel,offsetXField,GapYField)
      local topFieldPart = M.getTopField(fieldWidth,offsetXField)
      local middleFieldPart = M.getMiddleField(fieldWidth,offsetXField)
      local bottomFieldPart = M.getbottomField(fieldWidth,offsetXField)
@@ -42,7 +42,7 @@ function M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,label,offsetXLabe
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { middleFieldPart })
         end
 
-        M.updateIndexLine(indexLine)
+        M.updateIndexLine(indexLine,GapYField)
     end
 
     vim.api.nvim_buf_set_lines(buf, indexLine[1], indexLine[2], false, { bottomFieldPart })
@@ -77,11 +77,11 @@ function M.getbottomField(fieldWidth,offsetXField)
 end
 
 
-function M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField)
+function M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
     local nbField = #labels
     local indexLine = {0,1}
     for i = 1, nbField, 1 do
-        M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,labels[i],offsetXLabel,offsetXField)
+        M.writeTextField(fieldWidth,fieldHeight,indexLine,buf,labels[i],offsetXLabel,offsetXField,GapYField)
     end
 
 end
@@ -142,8 +142,9 @@ local fieldWidth = 30
 local fieldHeight = 1
 local offsetXLabel = 6
 local offsetXField = 24
+local GapYField = 2
 M.setWindow(buf,winHeight,winWidth,x,y)
-M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField)
+M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
 M.setTitle(title)
 end
 
