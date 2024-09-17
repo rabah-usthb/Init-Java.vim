@@ -30,18 +30,43 @@ function M.createJavaProject(ProjectPath,ProjectName)
 end
 
 
-function M.getClosestInputableLine(currentLine)
-   local min = math.abs(currentLine-indexLineInputable[1])
-   local currentValue = 0
-   local closestLine = indexLineInputable[1]
-   for i = 2, #indexLineInputable, 1 do
-       currentValue =  math.abs(currentLine-indexLineInputable[i])
-       if(min>currentValue) then
-           min = currentValue
-           closestLine = indexLineInputable[i]
+function M.colOutOfBounds(currentColumn,startCol,endCol)
+    return (currentColumn > endCol or currentColumn < startCol)
+end
+
+function M.getClosestCol(currentColumn,startCol,endCol)
+ local closetColumn = 0
+ local gapStart = math.abs(currentColumn-startCol)
+ local gapEnd = math.abs(currentColumn-endCol)
+        if gapStart>=gapEnd then
+        closetColumn = endCol
+           else
+          closetColumn = startCol
+             end
+
+    return closetColumn
+end
+
+
+function M.initCursor(win,startCol)
+    vim.api.nvim_win_set_cursor(win, {indexLineInputable[1], startCol})
+end
+
+
+
+
+function M.getFurthestLine(currentLine)
+    local max = math.abs(indexLineInputable[1]-currentLine)
+    local furthestLine = indexLineInputable[1]
+    local currentValue = 0
+    for i = 2, #indexLineInputable, 1 do
+        currentValue = math.abs(indexLineInputable[i]-currentLine)
+        if  currentValue > max then
+            max = currentValue
+            furthestLine = indexLineInputable[i] 
         end
-   end
-   return closestLine
+    end
+    return furthestLine
 end
 
 
@@ -50,21 +75,22 @@ function M.restrictCursor(win_id,startCol,endCol)
     local currentLine, currentColumn = cursor_pos[1], cursor_pos[2]
     print("fetched currentLine ",currentLine)
     print("fetched currentColumn ",currentColumn)
-   -- local rightLine = false
+   local rightLine = false
          for _, line in ipairs(indexLineInputable) do
-            if line == currentLine and (currentColumn > endCol or currentColumn < startCol) then    
-             print("out of bounds currentColumn ",currentColumn) 
-             local closetColumn = 0
-             local gapStart = math.abs(currentColumn-startCol)
-             local gapEnd = math.abs(currentColumn-endCol)
-             if gapStart>=gapEnd then
-                closetColumn = endCol
-                  else
-                      closetColumn = startCol
-             end
-             vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})
-       --      rightLine = true
+            if line == currentLine and (M.colOutOfBounds(currentColumn,startCol,endCol)) then    
+             local closetColumn = M.getClosestCol(currentColumn,startCol,endCol)
+            vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})
+            rightLine = true
+            break
             end
+         end
+         if rightLine == false then
+            local furthestLine = M.getFurthestLine(currentLine)
+             local closestCol = currentColumn
+             if M.colOutOfBounds(currentColumn,startCol,endCol) then
+               closestCol =M.getClosestCol(currentColumn,startCol,endCol) 
+             end
+            vim.api.nvim_win_set_cursor(win_id, {furthestLine, closestCol})
          end
            end
 
@@ -262,7 +288,7 @@ M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYF
 M.setTitle(title)
 local startCol = offsetXField+3
 local endCol = offsetXField+fieldWidth+2
-
+M.initCursor(win,startCol)
 print("startCol ",startCol)
 print("endCol ",endCol)
 M.setupCursorListener(buf,win,startCol,endCol)
