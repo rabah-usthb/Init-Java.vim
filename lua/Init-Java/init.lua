@@ -73,15 +73,14 @@ end
 function M.restrictCursor(win_id,startCol,endCol)
     local cursor_pos = vim.api.nvim_win_get_cursor(win_id)
     local currentLine, currentColumn = cursor_pos[1], cursor_pos[2]
-    print("fetched currentLine ",currentLine)
-    print("fetched currentColumn ",currentColumn)
-   local rightLine = false
+    local rightLine = false
          for _, line in ipairs(indexLineInputable) do
+            print("currentLine ",currentLine)
+            print("LineInputable ", line)
             if line == currentLine and (M.colOutOfBounds(currentColumn,startCol,endCol)) then    
              local closetColumn = M.getClosestCol(currentColumn,startCol,endCol)
             vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})
             rightLine = true
-            print("rightLine ",rightLine)
             break
             end
          end
@@ -290,8 +289,6 @@ M.setTitle(title)
 local startCol = offsetXField+3
 local endCol = offsetXField+fieldWidth+2
 M.initCursor(win,startCol)
-print("startCol ",startCol)
-print("endCol ",endCol)
 M.setupCursorListener(buf,win,startCol,endCol)
   vim.api.nvim_create_autocmd("BufWinLeave", {
         buffer = buf,
