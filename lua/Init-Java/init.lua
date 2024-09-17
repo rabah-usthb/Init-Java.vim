@@ -104,9 +104,11 @@ end
 
 
 function M.restrictDelete(startCol,endCol)
+print("enter restrictDelete func")
    local currentCol = vim.api.nvim_win_get_cursor(win_id)[2]  -- Get the current column (0-indexed)
    local currentChar = vim.api.nvim_get_vvar("char")    -- Get the character the user is typing
    if (currentChar == tostring(deleteKey) and M.colOutOfBounds(currentCol,startCol,endCol)) then         
+        print("enter if of restrictDelete")
         vim.api.nvim_input("<Esc>")  -- Exit insert mode to prevent deletion
         vim.schedule(function() vim.api.nvim_input("i") end)  -- Re-enter insert mode
                 
