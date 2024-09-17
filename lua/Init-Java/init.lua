@@ -75,7 +75,9 @@ function M.restrictCursor(win_id,startCol,endCol)
     local currentLine, currentColumn = cursor_pos[1], cursor_pos[2]
     local rightLine = false    
             for _, line in ipairs(indexLineInputable) do
-                if line == currentLine then rightLine == true end
+                if line == currentLine then 
+                    rightLine = true 
+                end
             if line == currentLine and (M.colOutOfBounds(currentColumn,startCol,endCol)) then    
             local closetColumn = M.getClosestCol(currentColumn,startCol,endCol)
             vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})  
