@@ -103,10 +103,10 @@ end
 
 
 
-function M.restrictDelete(win,startCol,endCol)
+function M.restrictDelete(startCol,endCol)
    local currentCol = vim.api.nvim_win_get_cursor(win_id)[2]  -- Get the current column (0-indexed)
-   local currentChar = vim.fn.char2nr(vim.fn.getcharstr())     -- Get the character the user is typing
-   if (currentChar == deleteKey and M.colOutOfBounds(currentCol,startCol,endCol)) then         
+   local currentChar = vim.api.nvim_get_vvar("char")    -- Get the character the user is typing
+   if (currentChar == tostring(deleteKey) and M.colOutOfBounds(currentCol,startCol,endCol)) then         
         vim.api.nvim_input("<Esc>")  -- Exit insert mode to prevent deletion
         vim.schedule(function() vim.api.nvim_input("i") end)  -- Re-enter insert mode
                 
@@ -123,7 +123,7 @@ function M.setupDeleteListener(buf, win_id,startCol,endCol)
         vim.api.nvim_create_autocmd("InsertCharPre", {
             group = augroup,
             callback = function()
-             M.restrictDelete(win_id,startCol,endCol)   
+             M.restrictDelete(startCol,endCol)   
             end,
             buffer = buf,  -- Apply to the current buffer
         })
