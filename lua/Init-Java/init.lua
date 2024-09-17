@@ -80,7 +80,6 @@ function M.restrictCursor(win_id,startCol,endCol)
              local closetColumn = M.getClosestCol(currentColumn,startCol,endCol)
             vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})
             rightLine = true
-            break
             end
          end
          if rightLine == false then
