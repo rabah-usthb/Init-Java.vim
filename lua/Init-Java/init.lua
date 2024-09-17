@@ -73,22 +73,24 @@ end
 function M.restrictCursor(win_id,startCol,endCol)
     local cursor_pos = vim.api.nvim_win_get_cursor(win_id)
     local currentLine, currentColumn = cursor_pos[1], cursor_pos[2]
-         for _, line in ipairs(indexLineInputable) do
-
+    local rightLine = false    
+            for _, line in ipairs(indexLineInputable) do
+                if line == currentLine then rightLine == true end
             if line == currentLine and (M.colOutOfBounds(currentColumn,startCol,endCol)) then    
-            print("INSIDE IFFFFFF") 
             local closetColumn = M.getClosestCol(currentColumn,startCol,endCol)
-            vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})
-              return
+            vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})  
+            break
              end
          end
-           -- local furthestLine = M.getFurthestLine(currentLine)
-            -- local closestCol = currentColumn
-             --if M.colOutOfBounds(currentColumn,startCol,endCol) then
-              -- closestCol =M.getClosestCol(currentColumn,startCol,endCol) 
-             --end
-           -- vim.api.nvim_win_set_cursor(win_id, {furthestLine, closestCol})
-    end
+         if rightLine == false then
+            local furthestLine = M.getFurthestLine(currentLine)
+            local closestCol = currentColumn
+             if M.colOutOfBounds(currentColumn,startCol,endCol) then
+             closestCol =M.getClosestCol(currentColumn,startCol,endCol) 
+             end
+             vim.api.nvim_win_set_cursor(win_id, {furthestLine, closestCol})
+             end
+       end
 
 
 function M.cleanupCursorListener()
