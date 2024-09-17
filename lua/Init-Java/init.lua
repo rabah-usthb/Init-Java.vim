@@ -81,12 +81,12 @@ function M.restrictCursor(win_id,startCol,endCol)
               return
              end
          end
-            local furthestLine = M.getFurthestLine(currentLine)
-             local closestCol = currentColumn
-             if M.colOutOfBounds(currentColumn,startCol,endCol) then
-               closestCol =M.getClosestCol(currentColumn,startCol,endCol) 
-             end
-            vim.api.nvim_win_set_cursor(win_id, {furthestLine, closestCol})
+           -- local furthestLine = M.getFurthestLine(currentLine)
+            -- local closestCol = currentColumn
+             --if M.colOutOfBounds(currentColumn,startCol,endCol) then
+              -- closestCol =M.getClosestCol(currentColumn,startCol,endCol) 
+             --end
+           -- vim.api.nvim_win_set_cursor(win_id, {furthestLine, closestCol})
     end
 
 
