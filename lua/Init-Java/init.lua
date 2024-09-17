@@ -13,7 +13,7 @@ local bottom_left_corner =  '└'
 local bottom_right_corner = '┘'
 
 local indexLineInputable = {}
-
+local deleteKey = 127
 
 --create the java project 
 function M.createJavaProject(ProjectPath,ProjectName)
@@ -97,7 +97,37 @@ function M.restrictCursor(win_id,startCol,endCol)
 
 function M.cleanupCursorListener()
     -- Delete the autocommand group
-    vim.api.nvim_del_augroup_by_name("CursorListenerGroup")
+    vim.api.nvim_del_augroup_by_name("CursorListenerGroup") 
+    vim.api.nvim_del_augroup_by_name("DeleteKeyListenerGroup")
+end
+
+
+
+function M.restrictDelete(win,startCol,endCol)
+   local currentCol = vim.api.nvim_win_get_cursor(win_id)[2]  -- Get the current column (0-indexed)
+   local currentChar = vim.fn.char2nr(vim.fn.getcharstr())     -- Get the character the user is typing
+   if (currentChar == deleteKey and M.colOutOfBounds(currentCol,startCol,endCol)) then         
+        vim.api.nvim_input("<Esc>")  -- Exit insert mode to prevent deletion
+        vim.schedule(function() vim.api.nvim_input("i") end)  -- Re-enter insert mode
+                
+   end
+end
+
+
+function M.setupDeleteListener(buf, win_id,startCol,endCol)
+    if vim.api.nvim_win_is_valid(win_id) then
+        -- Create an autocommand group for easy management
+        local augroup = vim.api.nvim_create_augroup("DeleteKeyListenerGroup", { clear = true })
+
+        -- Listen for the 'InsertCharPre' event to intercept keypresses
+        vim.api.nvim_create_autocmd("InsertCharPre", {
+            group = augroup,
+            callback = function()
+             M.restrictDelete(win_id,startCol,endCol)   
+            end,
+            buffer = buf,  -- Apply to the current buffer
+        })
+    end
 end
 
 
@@ -300,7 +330,8 @@ local startCol = offsetXField+3
 local endCol = offsetXField+fieldWidth+2
 M.initCursor(win,startCol)
 M.setupCursorListener(buf,win,startCol,endCol)
-  vim.api.nvim_create_autocmd("BufWinLeave", {
+M.setupDeleteListener(buf,win,startCol,endCol)
+vim.api.nvim_create_autocmd("BufWinLeave", {
         buffer = buf,
         callback = M.cleanupCursorListener,
     })
