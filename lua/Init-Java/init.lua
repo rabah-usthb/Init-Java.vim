@@ -115,6 +115,16 @@ function M.setupCursorListener(buf, win_id, startCol, endCol)
         buffer = buf,  -- Apply to current buffer
     })
 
+
+ -- Set up the autocommand to handle CursorMovedI event (for insert mode)
+        vim.api.nvim_create_autocmd("CursorMovedI", {
+            group = augroup,
+            callback = function()
+                M.restrictCursor(win_id, startCol, endCol)
+            end,
+            buffer = buf,  -- Apply to current buffer
+        })
+
     -- Handle mode changes
   
     -- Handle InsertEnter and InsertLeave
