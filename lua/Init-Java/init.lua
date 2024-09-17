@@ -103,9 +103,9 @@ end
 
 
 
-function M.restrictDelete(startCol,endCol)
+function M.restrictDelete(win,startCol,endCol)
 print("enter restrictDelete func")
-   local currentCol = vim.api.nvim_win_get_cursor(win_id)[2]  -- Get the current column (0-indexed)
+   local currentCol = vim.api.nvim_win_get_cursor(win)[2]  -- Get the current column (0-indexed)
    local currentChar = vim.api.nvim_get_vvar("char")    -- Get the character the user is typing
    if (currentChar == tostring(deleteKey) and M.colOutOfBounds(currentCol,startCol,endCol)) then         
         print("enter if of restrictDelete")
@@ -125,7 +125,7 @@ function M.setupDeleteListener(buf, win_id,startCol,endCol)
         vim.api.nvim_create_autocmd("InsertCharPre", {
             group = augroup,
             callback = function()
-             M.restrictDelete(startCol,endCol)   
+             M.restrictDelete(win_id,startCol,endCol)   
             end,
             buffer = buf,  -- Apply to the current buffer
         })
