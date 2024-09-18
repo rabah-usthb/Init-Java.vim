@@ -310,13 +310,14 @@ M.setupCursorListener(buf,win,startCol,endCol)
 
 local function restrictDelete()
    local currentCol = vim.api.nvim_win_get_cursor(win)[2]-- Get the current column (0-indexed)
-   print("currentCol ",currentCol)
-  -- if (M.colOutOfBounds(currentCol,startCol,endCol)) then         
-    --    print("enter if of restrictDelete")
-      --  vim.api.nvim_input("<Esc>")  -- Exit insert mode to prevent deletion
-       -- vim.schedule(function() vim.api.nvim_input("i") end)  -- Re-enter insert mode
-                
-  -- end
+   -- Define key codes for backspace
+    local backspace_key = vim.api.nvim_replace_termcodes('<BS>', true, true, true)
+    
+    -- Check if the current column should prevent deletion
+    if currentCol ~= startCol and currentCol ~= endCol then
+        -- Allow deletion by simulating the backspace key press
+        vim.api.nvim_feedkeys(backspace_key, 'n', true)
+    end
 end
 
  vim.api.nvim_set_keymap('i', '<BS>', '', {
@@ -330,7 +331,6 @@ end
         callback = function()
             -- Unmap the Backspace key to stop the callback when window closes
             vim.api.nvim_del_keymap('i', '<BS>')
-            print("Backspace unmap on window close")
         end,
     })
     vim.api.nvim_create_autocmd("BufWinLeave", {
