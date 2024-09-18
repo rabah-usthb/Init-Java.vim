@@ -332,7 +332,12 @@ local startCol = offsetXField+3
 local endCol = offsetXField+fieldWidth+2
 M.initCursor(win,startCol)
 M.setupCursorListener(buf,win,startCol,endCol)
-M.setupDeleteListener(buf,win,startCol,endCol)
+--M.setupDeleteListener(buf,win,startCol,endCol)
+--Map the Delete key in insert mode to the Lua function
+vim.api.nvim_set_keymap('i', '<Del>',
+        string.format('<Cmd>lua restrictDelete(%d, %d, %d)<CR>', win, startCol, endCol),
+        { noremap = true, silent = true })
+
 vim.api.nvim_create_autocmd("BufWinLeave", {
         buffer = buf,
         callback = M.cleanupCursorListener,
