@@ -311,12 +311,12 @@ M.setupCursorListener(buf,win,startCol,endCol)
 local function restrictDelete()
    local currentCol = vim.api.nvim_win_get_cursor(win)[2]-- Get the current column (0-indexed)
    print("currentCol ",currentCol)
-   if (M.colOutOfBounds(currentCol,startCol,endCol)) then         
-        print("enter if of restrictDelete")
-        vim.api.nvim_input("<Esc>")  -- Exit insert mode to prevent deletion
-        vim.schedule(function() vim.api.nvim_input("i") end)  -- Re-enter insert mode
+  -- if (M.colOutOfBounds(currentCol,startCol,endCol)) then         
+    --    print("enter if of restrictDelete")
+      --  vim.api.nvim_input("<Esc>")  -- Exit insert mode to prevent deletion
+       -- vim.schedule(function() vim.api.nvim_input("i") end)  -- Re-enter insert mode
                 
-   end
+  -- end
 end
 
  vim.api.nvim_set_keymap('i', '<BS>', '', {
