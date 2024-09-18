@@ -319,9 +319,21 @@ print("enter restrictDelete func")
    end
 end
 
-vim.api.nvim_set_keymap('i', '<BS>', '<Cmd>lua restrictDelete()<CR>', { noremap = true, silent = true })
-
-vim.api.nvim_create_autocmd("BufWinLeave", {
+ vim.api.nvim_set_keymap('i', '<BS>', '', {
+        noremap = true,
+        silent = true,
+        callback = restrictDelete  -- directly reference the function
+    })
+  -- Autocommand to unmap <BS> when window is closed
+    vim.api.nvim_create_autocmd("WinClosed", {
+        buffer = buf,
+        callback = function()
+            -- Unmap the Backspace key to stop the callback when window closes
+            vim.api.nvim_del_keymap('i', '<BS>')
+            print("Backspace unmap on window close")
+        end,
+    })
+    vim.api.nvim_create_autocmd("BufWinLeave", {
         buffer = buf,
         callback = M.cleanupCursorListener,
     })
