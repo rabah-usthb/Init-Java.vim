@@ -309,8 +309,8 @@ M.setupCursorListener(buf,win,startCol,endCol)
 --Map the Delete key in insert mode to the Lua function
 
 local function restrictDelete()
-print("enter restrictDelete func")
-   local currentCol = vim.api.nvim_win_get_cursor(win)[2]  -- Get the current column (0-indexed)
+   local currentCol = vim.api.nvim_win_get_cursor(win)[2]-- Get the current column (0-indexed)
+   print("currentCol ",currentCol)
    if (M.colOutOfBounds(currentCol,startCol,endCol)) then         
         print("enter if of restrictDelete")
         vim.api.nvim_input("<Esc>")  -- Exit insert mode to prevent deletion
