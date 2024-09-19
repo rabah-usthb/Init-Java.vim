@@ -342,7 +342,7 @@ local function check_and_unshift()
         end
 end
 
-vim.api.nvim_create_autocmd("TextChangedI", {
+vim.api.nvim_create_autocmd("TextChangedP", {
     group = vim.api.nvim_create_augroup("ColumnShiftGroup", { clear = true }),
     callback = function()
         check_and_unshift()
