@@ -321,20 +321,19 @@ local function restrictDelete()
 end
 local function check_and_unshift()
    
-            vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
     print("ENTER UNSHIFT METHOD")
     -- Get the current cursor column (0-indexed)
-    local currentCol = vim.api.nvim_win_get_cursor(0)[2]
+    local pipeCol = endCol+1 
 
     -- Get the current line content
     local line = vim.api.nvim_get_current_line()
 
     -- Check if the cursor is at `endCol + 1`
         -- Check the character at `endCol + 1` position (1-indexed in Lua)
-        local charAtCol = line:sub(currentCol + 1, currentCol + 1)
+        local charAtCol = line:sub(pipeCol + 1, pipeCol + 1)
 
         -- If the character isn't `|`, it means it has been shifted or changed
-        if charAtCol ~= "|" then
+       if charAtCol == "|" then
 
             vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
 
