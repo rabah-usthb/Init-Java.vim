@@ -322,17 +322,12 @@ end
 local function check_and_unshift()
    
     print("ENTER UNSHIFT METHOD")
-    -- Get the current cursor column (0-indexed)
     local pipeCol = endCol+1 
 
-    -- Get the current line content
     local line = vim.api.nvim_get_current_line()
 
-    -- Check if the cursor is at `endCol + 1`
-        -- Check the character at `endCol + 1` position (1-indexed in Lua)
-        local charAtCol = line:sub(pipeCol + 1, pipeCol + 1)
+        local charAtCol = line:sub(pipeCol, pipeCol)
 
-        -- If the character isn't `|`, it means it has been shifted or changed
        if charAtCol == "|" then
 
             vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
