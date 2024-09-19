@@ -332,7 +332,7 @@ local function check_and_unshift()
         local charAtCol = line:sub(currentCol + 1, currentCol + 1)
 
         -- If the character isn't `|`, it means it has been shifted or changed
-        if charAtCol == "|" then
+        if charAtCol ~= "|" then
 
             vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
 
