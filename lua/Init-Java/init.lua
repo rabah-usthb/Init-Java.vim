@@ -334,10 +334,11 @@ local function check_and_unshift()
         -- If the character isn't `|`, it means it has been shifted or changed
         if charAtCol == "|" then
             -- Unshift or undo the last action
+            print("No shift detected, character is still `|`")
+        else
+
             vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
             print("Unshifted: character at restricted column was changed")
-        else
-            print("No shift detected, character is still `|`")
         end
 end
 
