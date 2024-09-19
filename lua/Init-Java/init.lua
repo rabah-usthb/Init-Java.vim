@@ -319,6 +319,36 @@ local function restrictDelete()
         vim.api.nvim_feedkeys(backspace_key, 'n', true)
     end
 end
+local function check_and_unshift()
+    -- Get the current cursor column (0-indexed)
+    local currentCol = vim.api.nvim_win_get_cursor(0)[2]
+
+    -- Get the current line content
+    local line = vim.api.nvim_get_current_line()
+
+    -- Check if the cursor is at `endCol + 1`
+    if currentCol == endCol + 1 then
+        -- Check the character at `endCol + 1` position (1-indexed in Lua)
+        local charAtCol = line:sub(currentCol + 1, currentCol + 1)
+
+        -- If the character isn't `|`, it means it has been shifted or changed
+        if charAtCol ~= "|" then
+            -- Unshift or undo the last action
+            vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
+            print("Unshifted: character at restricted column was changed")
+        else
+            print("No shift detected, character is still `|`")
+        end
+    end
+end
+
+vim.api.nvim_create_autocmd("TextChangedI", {
+    group = vim.api.nvim_create_augroup("ColumnShiftGroup", { clear = true }),
+    callback = function()
+        check_and_unshift()
+    end,
+    buffer = 0,  -- Apply to the current buffer
+})
 
  vim.api.nvim_set_keymap('i', '<BS>', '', {
         noremap = true,
