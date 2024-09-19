@@ -320,6 +320,8 @@ local function restrictDelete()
     end
 end
 local function check_and_unshift()
+   
+            vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
     print("ENTER UNSHIFT METHOD")
     -- Get the current cursor column (0-indexed)
     local currentCol = vim.api.nvim_win_get_cursor(0)[2]
