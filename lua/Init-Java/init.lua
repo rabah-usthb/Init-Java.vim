@@ -327,7 +327,7 @@ local function check_and_unshift()
 
         local charAtCol = line:sub(63,65)
         print("Pipe",charAtCol)
-
+       charAtCol = charAtCol:gsub("%s+","")
        if charAtCol ~= "|" then
 
         vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
