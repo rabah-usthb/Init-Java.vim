@@ -264,6 +264,8 @@ end
 
 --create the floating window GUI
 function M.createFloatingWindow ()
+local pipe  = "|"
+print("pipchar ",pipe)
 --create new buffer
 local buf = M.initBuf()
 --get the neovim width
