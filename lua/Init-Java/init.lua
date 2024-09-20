@@ -264,8 +264,6 @@ end
 
 --create the floating window GUI
 function M.createFloatingWindow ()
-local pipe  = "|"
-print("pipchar ",pipe)
 --create new buffer
 local buf = M.initBuf()
 --get the neovim width
@@ -306,7 +304,7 @@ M.setTitle(title)
 local startCol = offsetXField+3
 local endCol = offsetXField+fieldWidth+2
 M.initCursor(win,startCol)
-M.setupCursorListener(buf,win,startCol,endCol)
+--M.setupCursorListener(buf,win,startCol,endCol)
 --M.setupDeleteListener(buf,win,startCol,endCol)
 --Map the Delete key in insert mode to the Lua function
 
