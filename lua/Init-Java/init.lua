@@ -326,7 +326,7 @@ local function check_and_unshift()
     local charAtCol = line:sub(63,67)  -- Get character at the column after the pipe
     
     print("Character at pipe position:", charAtCol)
-    charAtCol = charAtCol:gsup("%s+","")
+    charAtCol = charAtCol:gsub("%s+","")
      
     if charAtCol ~= "|" then
         print("Character is not '|', performing undo.")
