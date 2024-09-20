@@ -319,23 +319,28 @@ local function restrictDelete()
         vim.api.nvim_feedkeys(backspace_key, 'n', true)
     end
 end
+local is_unshifting = false
+
 local function check_and_unshift()
-   
     print("ENTER UNSHIFT METHOD")
 
     local line = vim.api.nvim_get_current_line()
-
-        local charAtCol = line:sub(63,65)
-        print("Pipe",charAtCol)
-       charAtCol = charAtCol:gsub("%s+","")
-       print(charAtCol == "|")
-       if charAtCol ~= "|" then
-
-         -- Undo the last change
-        vim.api.nvim_input("<Esc>u")
+    local charAtCol = line:sub(63, 65)
+    print("Pipe", charAtCol)
+    charAtCol = charAtCol:gsub("%s+", "")
+    
+    if charAtCol ~= "|" and not is_unshifting then
+        print("Character at pipe column is not '|', performing undo.")
         
-        -- Re-enter insert mode
-        vim.api.nvim_input("i")    
+        is_unshifting = true  -- Set the flag to prevent recursion
+        vim.api.nvim_input("<Esc>u")  -- Undo the last change
+        
+        -- Delay re-entering insert mode to allow the undo to complete
+        vim.defer_fn(function()
+            vim.api.nvim_input("i")  -- Re-enter insert mode
+            print("Returned to insert mode.")
+            is_unshifting = false  -- Reset the flag
+        end, 50)  -- 50 milliseconds delay
     end
 end
 
