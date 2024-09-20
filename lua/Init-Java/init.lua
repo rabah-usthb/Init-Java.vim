@@ -326,7 +326,7 @@ local function check_and_unshift()
 
     local line = vim.api.nvim_get_current_line()
 
-        local charAtCol = line:sub(pipeCol+1, pipeCol+1)
+        local charAtCol = line:sub(61,63)
         print("Pipe ",charAtCol)
 
        if charAtCol == "|" then
