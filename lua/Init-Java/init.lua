@@ -322,16 +322,15 @@ end
 local function check_and_unshift()
    
     print("ENTER UNSHIFT METHOD")
-    local pipeCol = endCol+1 
 
     local line = vim.api.nvim_get_current_line()
 
         local charAtCol = line:sub(63,65)
         print("Pipe",charAtCol)
 
-       if charAtCol == "|" then
+       if charAtCol ~= "|" then
 
-       --     vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
+        vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
 
         end
 end
