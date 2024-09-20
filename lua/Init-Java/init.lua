@@ -330,7 +330,7 @@ local function check_and_unshift()
        charAtCol = charAtCol:gsub("%s+","")
        if charAtCol ~= "|" then
 
-        vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
+       -- vim.api.nvim_input("<Esc>u")  -- Undo and return to insert mode
 
         end
 end
