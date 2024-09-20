@@ -324,8 +324,9 @@ local function check_and_unshift()
 
     local line = vim.api.nvim_get_current_line()
     local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
-    charAtCol = charAtCol:gsup("%s+","")
+    
     print("Character at pipe position:", charAtCol)
+    charAtCol = charAtCol:gsup("%s+","")
      
     if charAtCol ~= "|" then
         print("Character is not '|', performing undo.")
