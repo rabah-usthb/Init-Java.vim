@@ -327,7 +327,7 @@ _G.check_and_unshift = function()
     local line = vim.api.nvim_get_current_line()
     local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
     
-    print("char is",charAtCol.."",charAtCol=="|")
+    print("char leng ",#charAtCol.."char is",charAtCol.."",charAtCol=="|")
     
 end
 
