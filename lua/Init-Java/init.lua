@@ -327,21 +327,20 @@ local function check_and_unshift()
     
     print("Character at pipe position:", charAtCol)
     charAtCol = charAtCol:gsub("%s+","")
-     
-    if charAtCol ~= "|" then
-        print("Character is not '|', performing undo.")
+
+    if charAtCol == "|" then
         vim.api.nvim_input("<Esc>u")  -- Undo the last change
     end
 end
 
--- Set up the autocommand to listen for text changes
-vim.api.nvim_create_autocmd("TextChangedI", {
-    group = vim.api.nvim_create_augroup("ColumnShiftGroup", { clear = true }),
-    callback = function()
-        check_and_unshift()
-    end,
-    buffer = 0,  -- Apply to the current buffer
+
+-- Create an insert mode mapping for all keys
+vim.api.nvim_set_keymap('i', '<C-*>', '', { 
+    noremap = true, 
+    silent = true, 
+    callback = check_and_unshift
 })
+
 
  vim.api.nvim_set_keymap('i', '<BS>', '', {
         noremap = true,
