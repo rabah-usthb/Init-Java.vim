@@ -329,7 +329,7 @@ _G.check_and_unshift = function()
     
     print("char leng ",#charAtCol.."char is",charAtCol.."",charAtCol=="|")
        for i = 1, #charAtCol do
-        print("charAtCol["..i.."]:", string.byte(charAtCol, i))
+        io.write("charAtCol["..i.."]:", string.byte(charAtCol, i))
     end
 end
 
