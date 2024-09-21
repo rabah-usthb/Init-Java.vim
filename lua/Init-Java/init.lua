@@ -319,7 +319,9 @@ local function restrictDelete()
         vim.api.nvim_feedkeys(backspace_key, 'n', true)
     end
 end
-local function check_and_unshift()
+
+
+_G.check_and_unshift = function()   
     print("Checking position...")
 
     local line = vim.api.nvim_get_current_line()
