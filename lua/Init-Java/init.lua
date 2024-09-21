@@ -335,12 +335,12 @@ end
 
 
 _G.check_and_unshift = function()   
-    print("Checking position...")
 
     local line = vim.api.nvim_get_current_line()
     local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
     if not M.isPipe(charAtCol) then
-     M.unshiftPipe()
+        print("not pipe")
+        --     M.unshiftPipe()
     end
  end
 
