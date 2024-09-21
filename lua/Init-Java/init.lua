@@ -328,8 +328,9 @@ _G.check_and_unshift = function()
     local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
     
     print("char leng ",#charAtCol.."char is",charAtCol.."",charAtCol=="|")
-       for i = 1, #charAtCol do
-        io.write("charAtCol["..i.."]:", string.byte(charAtCol, i))
+    if #charAtCol == 3 then
+        
+        print("charAtCol[1]:", string.byte(charAtCol, 1).."charAtCol[2]:", string.byte(charAtCol, 2).."charAtCol[3]:", string.byte(charAtCol, 3))
     end
 end
 
