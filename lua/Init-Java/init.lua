@@ -262,6 +262,19 @@ function M.initBuf()
 end
 
 
+function M.isPipe(char)
+    local bool = false
+    
+    if #char == 3 then
+        if  string.byte(char, 1) == 226 and  string.byte(char, 2) == 148 and  string.byte(char, 3) == 130 then
+           bool = true 
+        end
+    end
+
+
+    return bool
+end
+
 --create the floating window GUI
 function M.createFloatingWindow ()
 --create new buffer
@@ -332,6 +345,10 @@ _G.check_and_unshift = function()
         
         print("charAtCol[1]:", string.byte(charAtCol, 1).."charAtCol[2]:", string.byte(charAtCol, 2).."charAtCol[3]:", string.byte(charAtCol, 3))
     end
+    if not M.isPipe(charAtCol) then
+        print("pipe is shifted")
+    end
+
 end
 
 
