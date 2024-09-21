@@ -327,12 +327,8 @@ _G.check_and_unshift = function()
     local line = vim.api.nvim_get_current_line()
     local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
     
-    print("Character at pipe position:", charAtCol)
-    charAtCol = charAtCol:gsub("%s+","")
-
-    if charAtCol ~= "|" then
-        vim.api.nvim_input("<Esc>u")  -- Undo the last change
-    end
+    print(charAtCol=="|")
+    
 end
 
 
