@@ -96,7 +96,8 @@ function M.restrictCursor(win_id,startCol,endCol)
 
 function M.cleanupCursorListener()
     -- Delete the autocommand group
-    vim.api.nvim_del_augroup_by_name("CursorListenerGroup") 
+    vim.api.nvim_del_augroup_by_name("CursorListenerGroup")
+    vim.api.nvim_del_augroup_by_name("KeyPressListener")
   end
 
 
@@ -340,7 +341,7 @@ end
 vim.cmd [[
 augroup KeyPressListener
     autocmd!
-    autocmd InsertCharPre * lua check_and_unshift()
+    autocmd TextChangedI * lua check_and_unshift()
 augroup END
 ]]
 
