@@ -365,7 +365,6 @@ _G.check_and_unshift = function()
 
 
     if not M.isPipe(charAtCol) then
-        print("pipe is shifted")
         if M.isPipeBefore then
 
         print("shifted left ")
@@ -374,9 +373,9 @@ _G.check_and_unshift = function()
         print("shifted Right ")
             end
         end
-    end
+ end
 
-end
+
 
 
 -- Use InsertCharPre to run the function before inserting any character
