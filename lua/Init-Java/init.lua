@@ -270,7 +270,6 @@ function M.unshiftPipe()
   end
   line = string.gsub(line,"│","")
   local newLine =string.sub(line,1,24).."│"..string.sub(line,26,65).."│"
-  newLine = string.sub(newLine,1,25)..string.gsub(string.sub(newLine,26,65),"%s+","")..string.sub(newLine,66,66)
   vim.api.nvim_set_current_line(newLine)
 end
 
