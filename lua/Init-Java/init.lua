@@ -365,10 +365,10 @@ _G.check_and_unshift = function()
 
 
     if not M.isPipe(charAtCol) then
-        if M.isPipeBefore then
+        if M.isPipeBefore() then
 
         print("shifted left ")
-            elseif M.isPipeAfter then
+            elseif M.isPipeAfter() then
             
         print("shifted Right ")
             end
