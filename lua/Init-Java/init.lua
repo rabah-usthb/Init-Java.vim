@@ -265,7 +265,7 @@ function M.unshiftPipe()
      
   local line = vim.api.nvim_get_current_line()
   line = string.gsub(line,"│","")
-  line = string.sub(line,1,24).."│"..string.sub(line,26,61).."│"..string.sub(line,63,#line)
+  line = string.sub(line,1,24).."│"..string.sub(line,26,65).."│"
   vim.api.nvim_set_current_line(line)
 end
 
