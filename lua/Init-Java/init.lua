@@ -264,22 +264,13 @@ end
 function M.unshiftPipe()
     
   local line = vim.api.nvim_get_current_line()
-  line = string.gsub(line,"|","",1)
-  line = string.sub(line,1,62).."|"..string.sub(line,66,#line)
+  line = string.gsub(line,"│","",1)
+  line = string.sub(line,1,62).."│"..string.sub(line,66,#line)
   vim.api.nvim_set_current_line(line)
 end
 
 function M.isPipe(char)
-    local bool = false
-    
-    if #char == 3 then
-        if  string.byte(char, 1) == 226 and  string.byte(char, 2) == 148 and  string.byte(char, 3) == 130 then
-           bool = true 
-        end
-    end
-
-
-    return bool
+    return char == '│' or char =="│" 
 end
 
 
@@ -348,14 +339,6 @@ _G.check_and_unshift = function()
 
     local line = vim.api.nvim_get_current_line()
     local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
-    
-    print("char leng ",#charAtCol.."char is",charAtCol.."",charAtCol=="|")
-    if #charAtCol == 3 then
-        
-        print("charAtCol[1]:", string.byte(charAtCol, 1).."charAtCol[2]:", string.byte(charAtCol, 2).."charAtCol[3]:", string.byte(charAtCol, 3))
-    end
-
-
     if not M.isPipe(charAtCol) then
      M.unshiftPipe()
     end
