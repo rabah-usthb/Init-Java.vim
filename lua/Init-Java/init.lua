@@ -342,7 +342,7 @@ _G.check_and_unshift = function()
     local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
     if not M.isPipe(charAtCol) then
         print("not pipe")
-        --     M.unshiftPipe()
+            M.unshiftPipe()
     end
  end
 
