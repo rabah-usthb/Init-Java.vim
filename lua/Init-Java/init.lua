@@ -97,7 +97,6 @@ function M.restrictCursor(win_id,startCol,endCol)
 function M.cleanupCursorListener()
     -- Delete the autocommand group
     vim.api.nvim_del_augroup_by_name("CursorListenerGroup")
-    vim.api.nvim_del_augroup_by_name("KeyPressListener")
   end
 
 
@@ -326,12 +325,12 @@ _G.check_and_unshift = function()
     print("Checking position...")
 
     local line = vim.api.nvim_get_current_line()
-    local charAtCol = line:sub(63,67)  -- Get character at the column after the pipe
+    local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
     
     print("Character at pipe position:", charAtCol)
     charAtCol = charAtCol:gsub("%s+","")
 
-    if charAtCol == "|" then
+    if charAtCol ~= "|" then
         vim.api.nvim_input("<Esc>u")  -- Undo the last change
     end
 end
@@ -341,7 +340,8 @@ end
 vim.cmd [[
 augroup KeyPressListener
     autocmd!
-    autocmd TextChangedI * lua check_and_unshift()
+    autocmd TextChangedI * lua check_and_unshift()  -- Trigger on any key press in insert mode
+    autocmd BufWinLeave * lua vim.cmd('augroup KeyPressListener | autocmd! | augroup END')  -- Remove the listener when window is closed
 augroup END
 ]]
 
