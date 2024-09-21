@@ -261,6 +261,13 @@ function M.initBuf()
    return buf
 end
 
+function M.unshiftPipe()
+    
+  local line = vim.api.nvim_get_current_line()
+  line = string.gsub(line,"|","",1)
+  line = string.sub(line,1,62).."|"..string.sub(line,66,#line)
+  vim.api.nvim_set_current_line(line)
+end
 
 function M.isPipe(char)
     local bool = false
@@ -275,21 +282,6 @@ function M.isPipe(char)
     return bool
 end
 
-function M.isPipeBefore()
- 
-    local line = vim.api.nvim_get_current_line()
-    local charAtCol = line:sub(62,64)  -- Get character at the column after the pipe
-    return M.isPipe(charAtCol)
-  
-end
-
-function M.isPipeAfter()
- 
-    local line = vim.api.nvim_get_current_line()
-    local charAtCol = line:sub(64,66)  -- Get character at the column after the pipe
-    return M.isPipe(charAtCol)
-  
-end
 
 
 --create the floating window GUI
@@ -365,17 +357,8 @@ _G.check_and_unshift = function()
 
 
     if not M.isPipe(charAtCol) then
-        if M.isPipeBefore() then
-
-        print("shifted left ")
-         move_utf8_char(62, 64, 63)
-
-            elseif M.isPipeAfter() then
-            
-        print("shifted Right ")
-        move_utf8_char(64, 66, 63)
-            end
-        end
+     M.unshiftPipe()
+    end
  end
 
 
