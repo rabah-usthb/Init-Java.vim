@@ -328,7 +328,9 @@ _G.check_and_unshift = function()
     local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
     
     print("char leng ",#charAtCol.."char is",charAtCol.."",charAtCol=="|")
-    
+       for i = 1, #charAtCol do
+        print("charAtCol["..i.."]:", string.byte(charAtCol, i))
+    end
 end
 
 
