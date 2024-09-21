@@ -368,9 +368,12 @@ _G.check_and_unshift = function()
         if M.isPipeBefore() then
 
         print("shifted left ")
+         move_utf8_char(62, 64, 63)
+
             elseif M.isPipeAfter() then
             
         print("shifted Right ")
+        move_utf8_char(64, 66, 63)
             end
         end
  end
