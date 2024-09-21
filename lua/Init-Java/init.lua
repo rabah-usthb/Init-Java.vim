@@ -334,12 +334,13 @@ local function check_and_unshift()
 end
 
 
--- Create an insert mode mapping for all keys
-vim.api.nvim_set_keymap('i', '<C-*>', '', { 
-    noremap = true, 
-    silent = true, 
-    callback = check_and_unshift
-})
+-- Use InsertCharPre to run the function before inserting any character
+vim.cmd [[
+augroup KeyPressListener
+    autocmd!
+    autocmd InsertCharPre * lua check_and_unshift()
+augroup END
+]]
 
 
  vim.api.nvim_set_keymap('i', '<BS>', '', {
