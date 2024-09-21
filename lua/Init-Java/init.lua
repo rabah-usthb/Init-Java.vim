@@ -275,6 +275,15 @@ function M.isPipe(char)
     return bool
 end
 
+function M.isPipeBefore()
+ 
+    local line = vim.api.nvim_get_current_line()
+    local charAtCol = line:sub(62,64)  -- Get character at the column after the pipe
+    return M.isPipe(charAtCol)
+  
+end
+
+
 --create the floating window GUI
 function M.createFloatingWindow ()
 --create new buffer
@@ -347,6 +356,7 @@ _G.check_and_unshift = function()
     end
     if not M.isPipe(charAtCol) then
         print("pipe is shifted")
+        print("is shifted left ",M.isPipeBefore())
     end
 
 end
