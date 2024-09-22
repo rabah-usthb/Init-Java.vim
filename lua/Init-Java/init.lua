@@ -13,6 +13,16 @@ local bottom_left_corner =  '└'
 local bottom_right_corner = '┘'
 
 local indexLineInputable = {}
+local stack_col = {}
+
+
+function M.push(col)
+    table.insert(stack_col, col) 
+end
+
+function M.peek()
+    return stack_col[#stack_col]
+end
 
 --create the java project 
 function M.createJavaProject(ProjectPath,ProjectName)
@@ -73,16 +83,18 @@ function M.restrictCursor(win_id,startCol,endCol)
     local cursor_pos = vim.api.nvim_win_get_cursor(win_id)
     local currentLine, currentColumn = cursor_pos[1], cursor_pos[2]
     local output = ""
-    local rightLine = false    
+    local rightLine = false
+    local closetColumn = currentColumn
             for _, line in ipairs(indexLineInputable) do
                 if line == currentLine then 
                     rightLine = true
                     output = "same line"
                     if   (M.colOutOfBounds(currentColumn,startCol,endCol)) then
-                      local closetColumn = M.getClosestCol(currentColumn,startCol,endCol)
+                       closetColumn = M.getClosestCol(currentColumn,startCol,endCol)
                       vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})  
                       break  
                     end
+                    M.push(closetColumn)
              end
          end
          if rightLine == false then
@@ -92,7 +104,7 @@ function M.restrictCursor(win_id,startCol,endCol)
           --   if M.colOutOfBounds(currentColumn,startCol,endCol) then
            --  closestCol =M.getClosestCol(currentColumn,startCol,endCol) 
             -- end
-             vim.api.nvim_win_set_cursor(win_id, {furthestLine, currentColumn})
+             vim.api.nvim_win_set_cursor(win_id, {furthestLine,M.peek()})
              end
              vim.cmd('echo"' .. output .. '"')
        end
@@ -344,6 +356,7 @@ M.setTitle(title)
 local startCol = offsetXField+3
 local endCol = offsetXField+fieldWidth+3
 M.initCursor(win,startCol)
+M.push(startCol)
 M.setupCursorListener(buf,win,startCol,endCol)
 --M.setupDeleteListener(buf,win,startCol,endCol)
 --Map the Delete key in insert mode to the Lua function
