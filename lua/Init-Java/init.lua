@@ -273,7 +273,8 @@ function M.unshiftPipe()
   end
   arrayChar[65] = '│'
   -- local newLine =string.sub(line,1,24)..'│'..string.sub(line,26,65)..'│'
-  vim.api.nvim_set_current_line(arrayChar)
+  local newLine = table.concat(arrayChar)
+  vim.api.nvim_set_current_line(newLine)
 end
 
 function M.isPipe(char)
