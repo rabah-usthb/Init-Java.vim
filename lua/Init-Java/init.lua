@@ -265,10 +265,10 @@ function M.unshiftPipe()
   local line = vim.api.nvim_get_current_line()
  local indexO = 0 
  local indexC = 0
- local output = ""
+-- local output = ""
 for i = 1, #line do
-    output = output .. "char[" .. i .. "] = " .. string.sub(line, i, i) .. " "
-    if M.isPipe(string.sub(line,i,i+2)) then
+  --  output = output .. "char[" .. i .. "] = " .. string.sub(line, i, i) .. " "
+    if i+2 <= #line and M.isPipe(string.sub(line,i,i+2)) then
        if indexO == 0 then
         indexO = i
           else
@@ -279,7 +279,7 @@ for i = 1, #line do
 end
 line = string.sub(line,1,indexC-1).."   "..string.sub(line,indexC+3,#line)
 --  print("opening pipe ",indexO.." closing pipe ",indexC)
-  vim.cmd('echo "' .. output .. '"')
+ -- vim.cmd('echo "' .. output .. '"')
   
   local newLine =string.sub(line,1,62)..'│'
   vim.api.nvim_set_current_line(newLine)
@@ -359,13 +359,13 @@ end
 
 _G.check_and_unshift = function()   
 
-   -- local line = vim.api.nvim_get_current_line()
+    local line = vim.api.nvim_get_current_line()
     
-    --    print(#line)
-  --  local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
-    --if not M.isPipe(charAtCol) then
+--    print(#line)
+    local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
+    if not M.isPipe(charAtCol) then
             M.unshiftPipe()
-    --end
+    end
  end
 
 
