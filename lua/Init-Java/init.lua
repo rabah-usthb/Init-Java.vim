@@ -262,18 +262,18 @@ function M.initBuf()
 end
 
 function M.unshiftPipe()
-    print("enter function ")
   local line = vim.api.nvim_get_current_line()
  local char_to_find = "│"
-
+ local output = ""
 for i = 1, #line do
+    output = output .."char[",i.."] = ",string.sub(line,i,i).." "
     if line:sub(i, i) == char_to_find then
-        print("Character found at index: " .. i) -- prints 8
+       print("Character found at index: " .. i) -- prints 8
         break
     end
 end
 --  print("opening pipe ",indexO.." closing pipe ",indexC)
-  
+  vim.cmd('echo "' .. output .. '"')
   
   -- local newLine =string.sub(line,1,24)..'│'..string.sub(line,26,65)..'│'
   --local newLine = table.concat(arrayChar)
