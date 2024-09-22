@@ -282,7 +282,7 @@ function M.unshiftPipe()
         
     end
   end
-  print("opening pipe ",indexO.." closing pipe ",indexC)
+--  print("opening pipe ",indexO.." closing pipe ",indexC)
   
   
   -- local newLine =string.sub(line,1,24)..'│'..string.sub(line,26,65)..'│'
