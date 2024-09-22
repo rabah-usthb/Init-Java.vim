@@ -75,20 +75,20 @@ function M.restrictCursor(win_id,startCol,endCol)
     local rightLine = false    
             for _, line in ipairs(indexLineInputable) do
                 if line == currentLine then 
-                    rightLine = true 
-                end
-            if line == currentLine and (M.colOutOfBounds(currentColumn,startCol,endCol)) then    
-            local closetColumn = M.getClosestCol(currentColumn,startCol,endCol)
-            vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})  
-            break
+                    rightLine = true
+                    if   (M.colOutOfBounds(currentColumn,startCol,endCol)) then
+                      local closetColumn = M.getClosestCol(currentColumn,startCol,endCol)
+                      vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})  
+                      break  
+                    end
              end
          end
          if rightLine == false then
             local furthestLine = M.getFurthestLine(currentLine)
             local closestCol = currentColumn
-             if M.colOutOfBounds(currentColumn,startCol,endCol) then
-             closestCol =M.getClosestCol(currentColumn,startCol,endCol) 
-             end
+          --   if M.colOutOfBounds(currentColumn,startCol,endCol) then
+           --  closestCol =M.getClosestCol(currentColumn,startCol,endCol) 
+            -- end
              vim.api.nvim_win_set_cursor(win_id, {furthestLine, closestCol})
              end
        end
@@ -338,7 +338,7 @@ M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYF
 --call the method to set the title
 M.setTitle(title)
 local startCol = offsetXField+3
-local endCol = offsetXField+fieldWidth+2
+local endCol = offsetXField+fieldWidth+3
 M.initCursor(win,startCol)
 M.setupCursorListener(buf,win,startCol,endCol)
 --M.setupDeleteListener(buf,win,startCol,endCol)
