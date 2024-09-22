@@ -72,10 +72,12 @@ end
 function M.restrictCursor(win_id,startCol,endCol)
     local cursor_pos = vim.api.nvim_win_get_cursor(win_id)
     local currentLine, currentColumn = cursor_pos[1], cursor_pos[2]
+    local output = ""
     local rightLine = false    
             for _, line in ipairs(indexLineInputable) do
                 if line == currentLine then 
                     rightLine = true
+                    output = "same line"
                     if   (M.colOutOfBounds(currentColumn,startCol,endCol)) then
                       local closetColumn = M.getClosestCol(currentColumn,startCol,endCol)
                       vim.api.nvim_win_set_cursor(win_id, {currentLine, closetColumn})  
@@ -84,6 +86,7 @@ function M.restrictCursor(win_id,startCol,endCol)
              end
          end
          if rightLine == false then
+            output = "dif line"
             local furthestLine = M.getFurthestLine(currentLine)
             local closestCol = currentColumn
           --   if M.colOutOfBounds(currentColumn,startCol,endCol) then
@@ -91,6 +94,7 @@ function M.restrictCursor(win_id,startCol,endCol)
             -- end
              vim.api.nvim_win_set_cursor(win_id, {furthestLine, closestCol})
              end
+             vim.cmd('echo"' .. output .. '"')
        end
 
 
