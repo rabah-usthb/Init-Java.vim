@@ -263,25 +263,14 @@ end
 
 function M.unshiftPipe()
   local line = vim.api.nvim_get_current_line()
-  print("Line ",line) 
-  local arrayChar = {}
-  local indexO = 0
-  local indexC = 0
-  for i = 1,#line, 1 do
-    arrayChar[i] = string.sub(line,i,i)
-    print("char ",arrayChar[i])
-  end
+ local char_to_find = "│"
 
-  for i = 1, #line, 1 do
-    if arrayChar[i] == "│" or arrayChar[i] == '│' then
-      if indexO == 0 then
-        indexO = i
-        else
-            indexC = i
-      end
-        
+for i = 1, #line do
+    if line:sub(i, i) == char_to_find then
+        print("Character found at index: " .. i) -- prints 8
+        break
     end
-  end
+end
 --  print("opening pipe ",indexO.." closing pipe ",indexC)
   
   
