@@ -272,7 +272,7 @@ function M.unshiftPipe()
   end
 
   for i = 1, #line, 1 do
-    if arrayChar[i] == '│' then
+    if arrayChar[i] == "│" then
       if indexO == 0 then
         indexO = i
         else
