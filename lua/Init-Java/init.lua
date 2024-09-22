@@ -1,4 +1,4 @@
-local M = {}
+ilocal M = {}   ocal M = {}│
 --top left corner character of the textfield
 local top_left_corner = '┌'
 --straight horizontal line character of the textfield
@@ -245,7 +245,7 @@ function M.setTitle(title)
     vim.cmd('set title')
     vim.cmd('let &titlestring = "' .. title .. '"')
 end
-
+ 
 
 
 --create the floating window
@@ -263,7 +263,6 @@ function M.setWindow(buf,height,width,x,y)
     })
     
     vim.api.nvim_win_set_option(win, 'winhl', 'FloatBorder:MyWhiteBorder')
-    vim.api.nvim_set_current_win(win)
     return win
 
 end
@@ -351,7 +350,9 @@ local offsetXField = 24
 local GapYField = 2
 --call method to create the window
 local win = M.setWindow(buf,winHeight,winWidth,x,y)
---call the method to set the labels and textfields
+vim.api.nvim_set_current_win(win)
+
+--call the method to set the labels and textfields   
 M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
 --call the method to set the title
 M.setTitle(title)
