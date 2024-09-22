@@ -1,4 +1,4 @@
-local M = {}   ocal M = {}│
+local M = {}
 --top left corner character of the textfield
 local top_left_corner = '┌'
 --straight horizontal line character of the textfield
