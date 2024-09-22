@@ -268,9 +268,11 @@ function M.unshiftPipe()
   while #line<66 do
     line = line.." "
   end
-  line = string.gsub(line,"│","a")
-  local newLine =string.sub(line,1,24)..'│'..string.sub(line,26,65)..'│'
-  vim.api.nvim_set_current_line(newLine)
+  --line = string.gsub(line,"│","a")
+  line[25] = "a"
+  line[66]="a"
+  -- local newLine =string.sub(line,1,24)..'│'..string.sub(line,26,65)..'│'
+  vim.api.nvim_set_current_line(line)
 end
 
 function M.isPipe(char)
