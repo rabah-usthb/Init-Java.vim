@@ -246,6 +246,8 @@ function M.setTitle(title)
     vim.cmd('let &titlestring = "' .. title .. '"')
 end
 
+
+
 --create the floating window
 function M.setWindow(buf,height,width,x,y)
  -- Define the highlight group for the border
@@ -261,7 +263,7 @@ function M.setWindow(buf,height,width,x,y)
     })
     
     vim.api.nvim_win_set_option(win, 'winhl', 'FloatBorder:MyWhiteBorder')
-
+    vim.api.nvim_set_current_win(win)
     return win
 
 end
