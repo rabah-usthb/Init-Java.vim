@@ -262,6 +262,7 @@ function M.initBuf()
 end
 
 function M.unshiftPipe()
+    print("enter function ")
   local line = vim.api.nvim_get_current_line()
  local char_to_find = "│"
 
