@@ -269,10 +269,11 @@ function M.unshiftPipe()
   local indexC = 0
   for i = 1,#line, 1 do
     arrayChar[i] = string.sub(line,i,i)
+    print("char ",arrayChar[i])
   end
 
   for i = 1, #line, 1 do
-    if arrayChar[i] == "│" then
+    if arrayChar[i] == "│" or arrayChar[i] == '│' then
       if indexO == 0 then
         indexO = i
         else
