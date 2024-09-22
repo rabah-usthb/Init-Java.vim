@@ -262,16 +262,18 @@ function M.initBuf()
 end
 
 function M.unshiftPipe()
-     
   local line = vim.api.nvim_get_current_line()
   print("Line ",line)
   while #line<66 do
     line = line.." "
   end
-  --line = string.gsub(line,"│","a")
- line = string.sub(line, 1, 24) .. "a" .. string.sub(line, 26, 65) .. "a"
+  local arrayChar = {}
+  for i = 1, 66, 1 do
+    arrayChar[i] = string.sub(line,i,i)
+  end
+  arrayChar[65] = '│'
   -- local newLine =string.sub(line,1,24)..'│'..string.sub(line,26,65)..'│'
-  vim.api.nvim_set_current_line(line)
+  vim.api.nvim_set_current_line(arrayChar)
 end
 
 function M.isPipe(char)
