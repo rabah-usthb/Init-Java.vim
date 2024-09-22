@@ -265,13 +265,28 @@ function M.unshiftPipe()
   local line = vim.api.nvim_get_current_line()
   print("Line ",line) 
   local arrayChar = {}
+  local indexO = 0
+  local indexC = 0
   for i = 1,#line, 1 do
     arrayChar[i] = string.sub(line,i,i)
   end
-  arrayChar[65] = '│'
+
+  for i = 1, #line, 1 do
+    if arrayChar[i] == '│' then
+      if indexO == 0 then
+        indexO = i
+        else
+            indexC = i
+      end
+        
+    end
+  end
+  print("opening pipe ",indexO.." closing pipe ",indexC)
+  
+  
   -- local newLine =string.sub(line,1,24)..'│'..string.sub(line,26,65)..'│'
-  local newLine = table.concat(arrayChar)
-  vim.api.nvim_set_current_line(newLine)
+  --local newLine = table.concat(arrayChar)
+  --vim.api.nvim_set_current_line(newLine)
 end
 
 function M.isPipe(char)
@@ -341,13 +356,13 @@ end
 
 _G.check_and_unshift = function()   
 
-    local line = vim.api.nvim_get_current_line()
+   -- local line = vim.api.nvim_get_current_line()
     
-        print(#line)
-    local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
-    if not M.isPipe(charAtCol) then
+    --    print(#line)
+  --  local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
+    --if not M.isPipe(charAtCol) then
             M.unshiftPipe()
-    end
+    --end
  end
 
 
