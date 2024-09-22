@@ -263,12 +263,9 @@ end
 
 function M.unshiftPipe()
   local line = vim.api.nvim_get_current_line()
-  print("Line ",line)
-  while #line<66 do
-    line = line.." "
-  end
+  print("Line ",line) 
   local arrayChar = {}
-  for i = 1, 66, 1 do
+  for i = 1,#line, 1 do
     arrayChar[i] = string.sub(line,i,i)
   end
   arrayChar[65] = '│'
