@@ -263,26 +263,37 @@ end
 
 function M.unshiftPipe()
   local line = vim.api.nvim_get_current_line()
- local char_to_find = "│"
+ local indexO = 0 
+ local indexC = 0
  local output = ""
 for i = 1, #line do
-   
     output = output .. "char[" .. i .. "] = " .. string.sub(line, i, i) .. " "
-    if line:sub(i, i) == char_to_find then
-       print("Character found at index: " .. i) -- prints 8
-        break
+    if M.isPipe(string.sub(line,i,i+2)) then
+       if indexO == 0 then
+        indexO = i
+          else
+             indexC = i
+             break
+       end 
     end
 end
+line = string.sub(line,1,indexC-1).."   "..string.sub(line,indexC+3,#line)
 --  print("opening pipe ",indexO.." closing pipe ",indexC)
   vim.cmd('echo "' .. output .. '"')
   
-  -- local newLine =string.sub(line,1,24)..'│'..string.sub(line,26,65)..'│'
-  --local newLine = table.concat(arrayChar)
-  --vim.api.nvim_set_current_line(newLine)
+  local newLine =string.sub(line,1,62)..'│'
+  vim.api.nvim_set_current_line(newLine)
 end
 
 function M.isPipe(char)
-    return char == '│' or char =="│" 
+    local bool = false
+    
+    if #char == 3 then
+        if  string.byte(char, 1) == 226 and  string.byte(char, 2) == 148 and  string.byte(char, 3) == 130 then
+           bool = true 
+        end
+    end
+    return bool
 end
 
 
