@@ -353,13 +353,15 @@ local win = M.setWindow(buf,winHeight,winWidth,x,y)
 
 --call the method to set the labels and textfields   
 M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
-vim.api.nvim_set_current_win(win)
+
 --call the method to set the title
 M.setTitle(title)
 local startCol = offsetXField+3
 local endCol = offsetXField+fieldWidth+3
-M.initCursor(win,startCol)
 M.push(startCol)
+vim.api.nvim_set_current_win(win)
+M.initCursor(win,startCol)
+vim.cmd('startinsert')
 M.setupCursorListener(buf,win,startCol,endCol)
 --M.setupDeleteListener(buf,win,startCol,endCol)
 --Map the Delete key in insert mode to the Lua function
