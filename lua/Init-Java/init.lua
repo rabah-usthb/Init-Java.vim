@@ -265,7 +265,7 @@ function M.unshiftPipe()
      
   local line = vim.api.nvim_get_current_line()
   print("Line ",line)
-  while #line~=66 do
+  while #line<66 do
     line = line.." "
   end
   line = string.gsub(line,"│","")
