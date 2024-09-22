@@ -266,7 +266,8 @@ function M.unshiftPipe()
  local char_to_find = "│"
  local output = ""
 for i = 1, #line do
-    output = output .."char[",i.."] = ",string.sub(line,i,i).." "
+   
+    output = output .. "char[" .. i .. "] = " .. string.sub(line, i, i) .. " "
     if line:sub(i, i) == char_to_find then
        print("Character found at index: " .. i) -- prints 8
         break
