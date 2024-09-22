@@ -350,10 +350,10 @@ local offsetXField = 24
 local GapYField = 2
 --call method to create the window
 local win = M.setWindow(buf,winHeight,winWidth,x,y)
-vim.api.nvim_set_current_win(win)
 
 --call the method to set the labels and textfields   
 M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYField)
+vim.api.nvim_set_current_win(win)
 --call the method to set the title
 M.setTitle(title)
 local startCol = offsetXField+3
