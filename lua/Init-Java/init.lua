@@ -16,6 +16,7 @@ local indexLineInputable = {}
 local stack_col = {}
 
 local endCol = 0
+local oldSpecialCharShift
 
 function M.push(col)
     table.insert(stack_col, col) 
@@ -292,11 +293,21 @@ function M.incrementSpecialCharShift(line,index,specialCharShift)
     return specialCharShift
 end
 
+function M.updateEndCol(newSpecialCharShift)
+    if oldSpecialCharShift == nil then
+    endCol = endCol + newSpecialCharShift
+    elseif oldSpecialCharShift>newSpecialCharShift then
+    endCol = endCol - (oldSpecialCharShift - newSpecialCharShift)
+    elseif newSpecialCharShift>oldSpecialCharShift then
+    endCol = endCol + (newSpecialCharShift - oldSpecialCharShift)  
+  end
+end
+
 function M.unshiftPipe()
   local line = vim.api.nvim_get_current_line()
  local indexO = 0 
  local indexC = 0
- local specialCharShift = 0
+ local newSpecialCharShift = 0
 -- local output = ""
 for i = 1, #line do
   --  output = output .. "char[" .. i .. "] = " .. string.sub(line, i, i) .. " "
@@ -310,18 +321,18 @@ for i = 1, #line do
     end
     if not M.isPipe(string.sub(line,i,i+2)) then
         
-   specialCharShift = M.incrementSpecialCharShift(line,i,specialCharShift)        
+   newSpecialCharShift = M.incrementSpecialCharShift(line,i,newSpecialCharShift)        
     end
 end
 line = string.sub(line,1,indexC-1).."   "..string.sub(line,indexC+3,#line)
 --  print("opening pipe ",indexO.." closing pipe ",indexC)
  -- vim.cmd('echo "' .. output .. '"')
-  endCol = endCol+specialCharShift
+  M.updateEndCol(newSpecialCharShift)
   local newLine =string.sub(line,1,endCol-1)..'│'
   vim.api.nvim_set_current_line(newLine)
-  local output = "specialCharShift "..specialCharShift
+  local output = "specialCharShift "..newSpecialCharShift
   vim.cmd('echo"' .. output .. '"')
-
+  oldSpecialCharShift = newSpecialCharShift
 end
 
 function M.isPipe(char)
