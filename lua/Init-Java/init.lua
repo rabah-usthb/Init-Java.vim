@@ -15,6 +15,7 @@ local bottom_right_corner = '┘'
 local indexLineInputable = {}
 local stack_col = {}
 
+local endCol = 0
 
 function M.push(col)
     table.insert(stack_col, col) 
@@ -315,8 +316,8 @@ end
 line = string.sub(line,1,indexC-1).."   "..string.sub(line,indexC+3,#line)
 --  print("opening pipe ",indexO.." closing pipe ",indexC)
  -- vim.cmd('echo "' .. output .. '"')
-  
-  local newLine =string.sub(line,1,62+specialCharShift)..'│'
+  endCol = endCol+specialCharShift
+  local newLine =string.sub(line,1,endCol-1)..'│'
   vim.api.nvim_set_current_line(newLine)
   local output = "specialCharShift "..specialCharShift
   vim.cmd('echo"' .. output .. '"')
@@ -378,7 +379,7 @@ M.setTextField(labels,fieldWidth,fieldHeight,buf,offsetXLabel,offsetXField,GapYF
 --call the method to set the title
 M.setTitle(title)
 local startCol = offsetXField+3
-local endCol = offsetXField+fieldWidth+3
+endCol = offsetXField+fieldWidth+4
 M.push(startCol)
 --vim.api.nvim_set_current_win(win)
 --M.initCursor(win,startCol)
@@ -404,7 +405,7 @@ _G.check_and_unshift = function()
     local line = vim.api.nvim_get_current_line()
     
 --    print(#line)
-    local charAtCol = line:sub(63,65)  -- Get character at the column after the pipe
+    local charAtCol = line:sub(endCol,endCol+2)  -- Get character at the column after the pipe
     if not M.isPipe(charAtCol) then
             M.unshiftPipe()
     end
