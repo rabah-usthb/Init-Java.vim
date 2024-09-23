@@ -318,6 +318,9 @@ line = string.sub(line,1,indexC-1).."   "..string.sub(line,indexC+3,#line)
   
   local newLine =string.sub(line,1,62+specialCharShift)..'│'
   vim.api.nvim_set_current_line(newLine)
+  local output = "specialCharShift "..specialCharShift
+  vim.cmd('echo"' .. output .. '"')
+
 end
 
 function M.isPipe(char)
