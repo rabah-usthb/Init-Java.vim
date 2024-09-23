@@ -306,9 +306,8 @@ for i = 1, #line do
              indexC = i
              break
        end 
-        else
-          specialCharShift  = M.incrementSpecialCharShift(line,i,specialCharShift)
     end
+   specialCharShift = M.incrementSpecialCharShift(line,i,specialCharShift)        
 end
 line = string.sub(line,1,indexC-1).."   "..string.sub(line,indexC+3,#line)
 --  print("opening pipe ",indexO.." closing pipe ",indexC)
@@ -378,7 +377,7 @@ M.push(startCol)
 --vim.api.nvim_set_current_win(win)
 --M.initCursor(win,startCol)
 --vim.cmd('startinsert')
-M.setupCursorListener(buf,win,startCol,endCol)
+--M.setupCursorListener(buf,win,startCol,endCol)
 --Map the Delete key in insert mode to the Lua function
 
 local function restrictDelete()
