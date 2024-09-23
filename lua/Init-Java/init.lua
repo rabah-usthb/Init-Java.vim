@@ -363,7 +363,6 @@ M.push(startCol)
 --M.initCursor(win,startCol)
 --vim.cmd('startinsert')
 M.setupCursorListener(buf,win,startCol,endCol)
-M.setupDeleteListener(buf,win,startCol,endCol)
 --Map the Delete key in insert mode to the Lua function
 
 local function restrictDelete()
