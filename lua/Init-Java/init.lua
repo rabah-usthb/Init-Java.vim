@@ -307,7 +307,10 @@ for i = 1, #line do
              break
        end 
     end
+    if not M.isPipe(string.sub(line,i,i+2)) then
+        
    specialCharShift = M.incrementSpecialCharShift(line,i,specialCharShift)        
+    end
 end
 line = string.sub(line,1,indexC-1).."   "..string.sub(line,indexC+3,#line)
 --  print("opening pipe ",indexO.." closing pipe ",indexC)
