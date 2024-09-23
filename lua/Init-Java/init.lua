@@ -359,11 +359,11 @@ M.setTitle(title)
 local startCol = offsetXField+3
 local endCol = offsetXField+fieldWidth+3
 M.push(startCol)
-vim.api.nvim_set_current_win(win)
-M.initCursor(win,startCol)
-vim.cmd('startinsert')
+--vim.api.nvim_set_current_win(win)
+--M.initCursor(win,startCol)
+--vim.cmd('startinsert')
 M.setupCursorListener(buf,win,startCol,endCol)
---M.setupDeleteListener(buf,win,startCol,endCol)
+M.setupDeleteListener(buf,win,startCol,endCol)
 --Map the Delete key in insert mode to the Lua function
 
 local function restrictDelete()
