@@ -278,10 +278,24 @@ function M.initBuf()
    return buf
 end
 
+
+function M.incrementSpecialCharShift(line,index,specialCharShift)
+    local byte = string.byte(line,index)
+    if byte >=240 then
+        specialCharShift = specialCharShift + 3
+        elseif byte>=224 then
+        specialCharShift = specialCharShift + 2
+        elseif byte >=192 then
+        specialCharShift = specialCharShift + 1
+    end
+    return specialCharShift
+end
+
 function M.unshiftPipe()
   local line = vim.api.nvim_get_current_line()
  local indexO = 0 
  local indexC = 0
+ local specialCharShift = 0
 -- local output = ""
 for i = 1, #line do
   --  output = output .. "char[" .. i .. "] = " .. string.sub(line, i, i) .. " "
@@ -292,13 +306,15 @@ for i = 1, #line do
              indexC = i
              break
        end 
+        else
+          specialCharShift  = M.incrementSpecialCharShift(line,i,specialCharShift)
     end
 end
 line = string.sub(line,1,indexC-1).."   "..string.sub(line,indexC+3,#line)
 --  print("opening pipe ",indexO.." closing pipe ",indexC)
  -- vim.cmd('echo "' .. output .. '"')
   
-  local newLine =string.sub(line,1,62)..'│'
+  local newLine =string.sub(line,1,62+specialCharShift)..'│'
   vim.api.nvim_set_current_line(newLine)
 end
 
