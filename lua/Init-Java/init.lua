@@ -330,7 +330,7 @@ line = string.sub(line,1,indexC-1).."   "..string.sub(line,indexC+3,#line)
   M.updateEndCol(newSpecialCharShift)
   local newLine =string.sub(line,1,endCol-1)..'│'
   vim.api.nvim_set_current_line(newLine)
-  local output = "specialCharShift "..newSpecialCharShift
+  local output = "specialCharShift "..newSpecialCharShift.." endCol "..endCol
   vim.cmd('echo"' .. output .. '"')
   oldSpecialCharShift = newSpecialCharShift
 end
